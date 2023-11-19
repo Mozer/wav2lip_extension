@@ -1,0 +1,11 @@
+{
+    "display_name": "Wav2lip",
+    "loading_order": 10,
+    "requires": [],
+    "optional": [],
+    "js": "index.js",
+    "css": "style.css",
+    "author": "Mozer",
+    "version": "1.0.0",
+    "homePage": "https://github.com/Mozer/wav2lip_extension"
+}
