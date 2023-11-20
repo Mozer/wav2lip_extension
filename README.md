@@ -72,7 +72,9 @@ pip install -r requirements.txt
 Wait while all the dependencies  are installed. If there are errors - fix them manully or open an issue.
 
 3.0 manually download this checkpoint https://iiitaphyd-my.sharepoint.com/:u:/g/personal/radrabha_m_research_iiit_ac_in/Eb3LEzbfuKlJiR600lQWRxgBIY27JZg80f7V9jtMfbNDaQ?e=TBFBVW
+
 put wav2lip.pth (416 MB) to '\SillyTavern-extras\modules\wav2lip\checkpoints\'
+
 there are other checkpoints at https://github.com/Rudrabha/Wav2Lip#getting-the-weights but this one is the fastest.
 
 4.0 make sure ffmpeg is installed and is put into your PATH environment: https://phoenixnap.com/kb/ffmpeg-windows
