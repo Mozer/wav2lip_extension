@@ -297,7 +297,7 @@ def load_model(self, lang_model="v3_1_ru.pt"):
 
 
 
-7. Enable wav2lip and silero-tts modules for silly extras and start it using command line or conda. silero-tts module is optional, you can try other tts engines in Silly
+7.0 Enable wav2lip and silero-tts modules for silly extras and start it using command line or conda. silero-tts module is optional, you can try other tts engines in Silly
 `python server.py --enable-modules silero-tts,wav2lip`
 
 7.1 start or restart silero extras server to get changes in python code working (close console window and start again using command line or bat file)
@@ -312,7 +312,7 @@ def load_model(self, lang_model="v3_1_ru.pt"):
 
 8.5 You can make video messages auto generated or you can click a video icon at each message to generate them manually.
 
-9. Put your short and low-res input vids/pics into `\SillyTavern-Extras\modules\wav2lip\input\default\` They will be played in random order. Character folder selection in UI is TODO.
+9.0 Put your short and low-res input vids/pics into `\SillyTavern-Extras\modules\wav2lip\input\default\` They will be played in random order. Character folder selection in UI is TODO.
 
 
 ## TODO
