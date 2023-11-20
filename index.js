@@ -373,7 +373,7 @@ async function onCharacterMessageRendered() {
 	{
 		console.log("wav2lip onCharacterMessageRendered: hiding reply")
 		let mes_obj = $(".last_mes").find(".mes_text");
-		mes_obj.attr("data-html", mes_obj.html()).html("<span class='wav2lip_recording_label'>[Recording video...]</span>")
+		mes_obj.attr("data-html", mes_obj.html()).html("<span class='wav2lip_recording_label' title='"+mes_obj.html()+"'>[Recording video...]</span>")
 	}		
 }
 
