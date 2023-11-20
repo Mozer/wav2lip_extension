@@ -1,6 +1,6 @@
 # Wav2lip Silly Tavern extension
 
-Based on https://github.com/Rudrabha/Wav2Lip and wrapped in js for Silly Tavern by @Mozer.
+Based on https://github.com/Rudrabha/Wav2Lip and wrapped in js for Silly Tavern by @github/Mozer.
 
 An extension that makes video messages with lipsync to audio from TTS.
 
