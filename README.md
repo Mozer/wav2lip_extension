@@ -88,7 +88,7 @@ there are other checkpoints at https://github.com/Rudrabha/Wav2Lip#getting-the-w
 
 
 
-## 5 Manually edit some files to make it work:
+## Manually edit some files to make it work:
 
 5.1 in \SillyTavern-MainBranch\public\index.html
 
@@ -187,9 +187,9 @@ def wav2lip_play(fname: str):
 ```
 
 ## Optional: other languages and voice pitch
-6.0. [Optional] edit "\SillyTavern-Extras\server.py" to make other languages working:
+6.0. [Optional] edit "\SillyTavern-Extras\server.py" to make other languages working (English is working by default):
 
-lines 818-841, replace whole tts_generate() function with new one. OLD:
+lines 818-841, replace whole old tts_generate() function with new one. OLD:
 ```
 # Added fix for Silero not working as new files were unable to be created if one already existed. - Rolyat 7/7/23
 @app.route("/api/tts/generate", methods=["POST"])
