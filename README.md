@@ -6,8 +6,8 @@ An extension that makes video messages with lipsync to audio from TTS.
 
 https://github.com/Mozer/wav2lip_extension/assets/1599013/1dcab8d0-a7a2-45da-8bbf-416c2a5271bc
 
-Video of real time usage in Silly Tavern. Warning: harsh language in Russian (Осторожно, есть немного мата):
-https://t.me/tensorbanana/745
+Video of [real time usage in Silly Tavern](https://t.me/tensorbanana/745). Warning: harsh language in Russian (Осторожно, есть немного мата):
+
 
 Works with input videos and images. Please notice that for static images only the lips will be animated. Real videos as input are more realistic. Anime pics/vids are NOT TESTED.
 
