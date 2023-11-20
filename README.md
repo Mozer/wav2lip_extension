@@ -8,7 +8,7 @@ https://github.com/Mozer/wav2lip_extension/assets/1599013/1dcab8d0-a7a2-45da-8bb
 
 https://github.com/Mozer/wav2lip_extension/assets/1599013/e9e1796c-8b05-4608-815d-d8e7249b7f26
 
-Video of real time usage in Silly Tavern. Warning: harsh language in Russian (Осторожно, есть мат):
+Video of real time usage in Silly Tavern. Warning: harsh language in Russian (Осторожно, есть немного мата):
 https://t.me/tensorbanana/745
 
 Works with input videos and images. Please notice that for static images only the lips will be animated. Real videos as input are more realistic. Anime pics/vids are NOT TESTED.
@@ -325,6 +325,6 @@ def load_model(self, lang_model="v3_1_ru.pt"):
 ## Discussion
 If you have bugs or proposals please open a bug report or a pull request
 
-https://t.me/tensorbanana/745
+tg: https://t.me/tensorbanana/745
 
-discord
+discord: 
