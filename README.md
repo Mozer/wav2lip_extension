@@ -209,7 +209,7 @@ def tts_generate():
         print(e)
         abort(500, voice["speaker"])
 ```
-replace with this NEW one. And change language and model_id for your desired language. Set your desired voice pitch and speed. Note: you need to restart extras server to make changes in code work
+replace with this NEW one: And change language and model_id for your desired language. Set your desired voice pitch and speed. Note: you need to restart extras server to make changes in code work
 ```
 # Added fix for Silero not working as new files were unable to be created if one already existed. - Rolyat 7/7/23
 # NOTE: silero_api_server\tts.py should also be modified to support prosody and other languages
@@ -274,11 +274,10 @@ audio_path = Path(self.model.save_wav(ssml_text=text,speaker=speaker,sample_rate
 
 modify lines 18, 19, from this:
 ```
-def __init__(self, sample_path, lang="v3_en.pt") -> None:
-
-    self.sample_text = "The fallowed fallen swindle auspacious goats in portable power stations."
+    def __init__(self, sample_path, lang="v3_en.pt") -> None:
+        self.sample_text = "The fallowed fallen swindle auspacious goats in portable power stations."
 ```
-Into this. For Russian language modify to (other languages file names are in list above):	
+Into this. (Other languages file names are in list above) For Russian language modify to:	
 ```
     def __init__(self, sample_path, lang="v3_1_ru.pt") -> None:
         self.sample_text = "Привет, мир! The fallowed fallen swindle auspacious goats in portable power stations."
@@ -287,7 +286,7 @@ modify line 49 from `def load_model(self, lang_model="v3_en.pt"):`
 	
 into:
 ```
-    def load_model(self, lang_model="v3_1_ru.pt"):
+def load_model(self, lang_model="v3_1_ru.pt"):
 ```
 
 
