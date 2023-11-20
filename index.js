@@ -12,14 +12,13 @@ import {
     this_chid,
     getCurrentChatId,
 	scrollChatToBottom,
-} from "../../../script.js";
+} from "../../../../script.js";
 import { Wav2LipProvider } from './wav2lip.js'
-import { getApiUrl, getContext, extension_settings, doExtrasFetch, modules, renderExtensionTemplate } from "../../extensions.js";
-import { selected_group } from "../../group-chats.js";
-import { stringFormat, initScrollHeight, resetScrollHeight, getCharaFilename, saveBase64AsFile } from "../../utils.js";
-import { getMessageTimeStamp, humanizedDateTime } from "../../RossAscends-mods.js";
-import { SECRET_KEYS, secret_state } from "../../secrets.js";
-import { getNovelUnlimitedImageGeneration, getNovelAnlas, loadNovelSubscriptionData } from "../../nai-settings.js";
+import { getApiUrl, getContext, extension_settings, doExtrasFetch, modules, renderExtensionTemplate } from "../../../extensions.js";
+import { selected_group } from "../../../group-chats.js";
+import { stringFormat, initScrollHeight, resetScrollHeight, getCharaFilename, saveBase64AsFile } from "../../../utils.js";
+import { getMessageTimeStamp, humanizedDateTime } from "../../../RossAscends-mods.js";
+import { SECRET_KEYS, secret_state } from "../../../secrets.js";
 export { MODULE_NAME };
 export { wav2lipMain };
 export { wav2lipIsGeneratingNow };
@@ -114,8 +113,8 @@ async function generateVideo(_, trigger, message, callback) {
         return;
     }
 
-    extension_settings.wav2lip.sampler = $('#wav2lip_sampler').find(':selected').val();
-    extension_settings.wav2lip.model = $('#wav2lip_model').find(':selected').val();
+    //extension_settings.wav2lip.sampler = $('#wav2lip_sampler').find(':selected').val();
+    //extension_settings.wav2lip.model = $('#wav2lip_model').find(':selected').val();
 
     trigger = trigger.trim();
     const generationType = getGenerationType(trigger);
@@ -398,7 +397,7 @@ async function wav2lipMain(text, voiceId, char) {
 jQuery(async () => {
     //getContext().registerSlashCommand('wav2lip', generateVideo, [], '', true, true);
 
-    $('#extensions_settings').append(renderExtensionTemplate('wav2lip', 'settings', defaultSettings));
+    $('#extensions_settings').append(renderExtensionTemplate('third-party/wav2lip_extension', 'settings', defaultSettings));
     $('#wav2lip_enabled').on('input', onEnabledInput);
     $('#wav2lip_auto_generate').on('input', onAutoGenerateInput);
     $('#wav2lip_hide_reply_for_a_while').on('input', onHideReplyInput);

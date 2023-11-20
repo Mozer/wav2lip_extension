@@ -1,4 +1,4 @@
-import { doExtrasFetch, getApiUrl, modules } from "../../extensions.js"
+import { doExtrasFetch, getApiUrl, modules } from "../../../extensions.js"
 
 export { Wav2LipProvider }
 
@@ -19,16 +19,8 @@ class Wav2LipProvider {
         voiceMap: {}
     }
 
-    get settingsHtml() {
-        let html = `
-        <label for="wav2lip_endpoint">Provider Endpoint:</label>
-        <input id="wav2lip_endpoint" type="text" class="text_pole" maxlength="250" value="${this.defaultSettings.provider_endpoint}"/>
-        <span>
-        `
-        return html
-    }
-
     async loadSettings(settings) {
+		console.debug("Wav2lip: in loadSettings()")
         // Pupulate Provider UI given input settings
         if (Object.keys(settings).length == 0) {
             console.info("Using default wav2lip Provider settings")
