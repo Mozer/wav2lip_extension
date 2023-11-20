@@ -19,7 +19,7 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 
 ## Requirements: 
-- nvidia GPU with 8+ GB VRAM
+- nvidia GPU with 6+ GB VRAM
 
 
 ## Notes:
