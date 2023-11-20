@@ -212,6 +212,7 @@ def tts_generate():
 replace with this NEW one: And change language and model_id for your desired language. Set your desired voice pitch and speed. Note: you need to restart extras server to make changes in code work
 ```
 # Added fix for Silero not working as new files were unable to be created if one already existed. - Rolyat 7/7/23
+# Added hardcoded language, voice pitch and speed. TODO: in UI
 # NOTE: silero_api_server\tts.py should also be modified to support prosody and other languages
 @app.route("/api/tts/generate", methods=["POST"])
 @require_module("silero-tts")
