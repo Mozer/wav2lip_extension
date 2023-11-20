@@ -179,6 +179,7 @@ def wav2lip_play(fname: str):
     return send_from_directory(WAV2LIP_OUTPUT_PATH, f"{fname}.mp4")
 ```
 
+## Optional: other languages and voice pitch
 6.0. [Optional] edit "\SillyTavern-Extras\server.py" to make other languages working:
 
 lines 818-841, replace whole tts_generate() function with new one. OLD:
