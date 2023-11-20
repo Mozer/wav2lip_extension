@@ -323,8 +323,4 @@ def load_model(self, lang_model="v3_1_ru.pt"):
 ## Discussion
 If you have bugs or proposals please open a bug report or a pull request
 
-tg discussion: https://t.me/+GSetWHWJWGcwNzhi
-
 discord: https://discord.gg/DZnCnGsJ
-
-tg (my other ai stuff): https://t.me/tensorbanana
