@@ -4,6 +4,8 @@ Based on [Rudrabha/Wav2Lip](https://github.com/Rudrabha/Wav2Lip) and wrapped in 
 
 An extension that makes video messages with lipsync to audio from TTS.
 
+https://github.com/Mozer/wav2lip_extension/assets/1599013/1dcab8d0-a7a2-45da-8bbf-416c2a5271bc
+
 https://github.com/Mozer/wav2lip_extension/assets/1599013/e9e1796c-8b05-4608-815d-d8e7249b7f26
 
 Works with input videos and images. Please notice that for static images only the lips will be animated. Real videos as input are more realistic. Anime pics/vids are NOT TESTED.
