@@ -18,6 +18,10 @@ Don't put FullHD+ res vids as input they will cause OOM errors. Automatic resizi
 Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There are other lipsync models like Wav2LipHD or Wav2Lip GAN or SadTalkerVideo but they are times slower.
 
 
+## News
+2023.11.21 Caching for face detection. Generation speed for cached vids is now almost 2x faster (2 seconds for a short answer, 10 seconds for 11 second long input audio)
+
+
 ## Requirements: 
 - nvidia GPU with 6+ GB VRAM
 
@@ -35,7 +39,7 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 ## Performance
 
 ```
-Inference time for 300x400 10s 25fps input video, no other stuff in vram
+Inference time for not cached 300x400 10s 25fps input video, no other stuff in vram. Cached times are ~2x faster.
 audio,s			gen,s		VRAM,Gb
 1			4		7.8
 8			15		6.8
@@ -44,7 +48,7 @@ audio,s			gen,s		VRAM,Gb
 31			32		11.1
 44			103		13.2	used shared vram
 
-Inference time for 200x268 10s 25fps input video, no other stuff in vram
+Inference time for not cached 200x268 10s 25fps input video, no other stuff in vram. Cached times are ~2x faster.
 audio,s			gen,s		VRAM,Gb
 1			4		3.9
 31			27		10.8	
