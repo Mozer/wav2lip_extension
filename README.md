@@ -19,8 +19,8 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 
 ## News
-- 2023.11.22 CPU only inference is also very fast with caching! (1 second for a short answer, 15 seconds for 11 second long input audio)
-- 2023.11.21 Caching for face detection. Generation speed for cached vids is now almost 2x faster (2 seconds for a short answer, 10 seconds for 11 second long input audio)
+- 2023.11.22 - CPU only inference is also very fast with caching! (1 second for a short answer, 15 seconds for 11 second long input audio)
+- 2023.11.21 - Caching for face detection. Generation speed for cached vids is now almost 2x faster (2 seconds for a short answer, 10 seconds for 11 second long input audio)
 
 
 ## Requirements: 
@@ -29,10 +29,10 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 
 ## Notes:
-- wav2lip is built using pytorch with cuda. AMD gpus or CPUs are not tested. You can try, they might work. Please report if they do.
-- Min VRAM: 6 GB for 300x400 input video and short audio. Static input images may require less VRAM (how much?). Hi-res input videos/images and longer audios require more VRAM. Please report if you are able to run it with less VRAM
+- original wav2lip is built using pytorch. Works nicely on CPUs and nvidia GPUs. AMD GPUs are not tested. You can try (ROCm for linux?), they might work. Please report if they do.
+- If you don't have much VRAM please use CPU (turned on as default). Min VRAM: 6 GB for 300x400 input video and short audio. Static input images may require less VRAM (how much?). Hi-res input videos/images and longer audios require more VRAM. Please report if you are able to run it with less VRAM
 - If your LLM model is also in VRAM it can cause to OOM error or result in slower replies if you have shared VRAM. 
-- I tested it with 3060 12GB and was able to have ruGPT3.5-13B-gptq fully loaded into VRAM using autoGPTQ. But sometimes with longer replies (4+ sentences) it went into using shared VRAM and caused drastic drop in video gen speed.
+- I tested it running on GPU with 3060 12GB and was able to have ruGPT3.5-13B-gptq fully loaded into VRAM using autoGPTQ. But sometimes with longer replies (4+ sentences) it went into using shared VRAM and caused drastic drop in video gen speed.
 - Default silero api server doesn't support other languages, just English
 - Default silero api server doesn't support prosody (voice speed and pitch)
 - Video generation takes some time (about 10s). If your LLM is also in VRAM don't ask it anything during video generation or you can get OOM error. (TODO: disable sending)
@@ -51,8 +51,8 @@ CPU	11	15	cached
 GPU	1	8	not cached
 GPU	1	2	cached
 GPU	11	15	cached
-GPU	31	32	not cached		11.1
-GPU	44	103	not cached		13.2	used shared vram
+GPU	31	32	not cached	11.1
+GPU	44	103	not cached	13.2	used shared vram
 ```
 
 
