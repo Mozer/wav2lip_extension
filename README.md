@@ -11,7 +11,7 @@ Video of [real time usage in Silly Tavern](https://t.me/tensorbanana/745). Warni
 
 Works with input videos and images. Please notice that for static images only the lips will be animated. Real videos as input are more realistic. Anime pics/vids are NOT TESTED.
 
-Low res real vids are the best in terms of realism and performance, i suggest using 300x400 10 second long 25fps input video. 
+Low res real vids are the best in terms of realism and performance, i suggest using 300x400 10-30 second long 25fps input video. 
 
 Don't put FullHD+ res vids as input they will cause OOM errors. Automatic resizing is not done yet (TODO). Resize and cut vids manually.
 
@@ -19,13 +19,15 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 
 ## News
-- 2023.11.22 - CPU only inference is also very fast with caching! (1 second for a short answer, 15 seconds for 11 second long input audio)
+- 2023.11.22 - CPU inference is also very fast with caching! (1 second for a short answer, 15 seconds for 11 second long input audio)
 - 2023.11.21 - Caching for face detection. Generation speed for cached vids is now almost 2x faster (2 seconds for a short answer, 10 seconds for 11 second long input audio)
 
 
 ## Requirements: 
-- CPU or nvidia GPU with 6+ GB VRAM
+- CPU with 10+ RAM or nvidia GPU with 8+ GB VRAM
 - if you have less VRAM or Radeon GPU please use CPU, it is also fast (and turned on by default)
+- latest Silly Tavern 1.10.9+ installed  (https://github.com/SillyTavern/SillyTavern)
+- latest Silly Tavern Extras (19.11.2023) installed (https://github.com/SillyTavern/SillyTavern-Extras)
 
 
 ## Notes:
@@ -40,10 +42,12 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 ## Performance
 
-Face detection runs rather slow on CPU (55s) rather then GPU (8s), but when all vids have cached face detection - you can use CPU only almost as fast as a GPU! (1 second for a short answer). 
-Cache is made automatically when input video is used for the first time. Cached times are ~2x faster. 
-Inference time for 300x400 10s 25fps input video, no other stuff in vram. CPU here is Ryzen 7 7730U, GPU is nvidia rtx 3600 12 GB. 
+Two steps here = face detection + lips movement. face detection results are always the same for the same input video, so we can cache them.
+Face detection runs rather slow on CPU (10s video = 60s of face detection) rather then GPU (7s), but when all vids have cached face detection - you can use CPU only almost as fast as a GPU! (1 second for a short answer). 
+Cache is made automatically when input video is used for the first time. Cached times are ~2x faster. CPU here is Ryzen 7 7730U, GPU is nvidia rtx 3600 12 GB. 
+
 ```
+	Inference time for 300x400 10s 25fps input video, no other stuff in vram. 
 device	audio,s	gen,s	face_det	VRAM,Gb		
 CPU	1	55	not cached
 CPU	1	1	cached
@@ -53,14 +57,19 @@ GPU	1	2	cached
 GPU	11	15	cached
 GPU	31	32	not cached	11.1
 GPU	44	103	not cached	13.2	used shared vram
+
+
+	Just face detection 
+device	input_video,s face_det,s
+CPU	10	55
+CPU	30	435	(448x300 25 fps)
+GPU	30	13
 ```
 
 
 ## Installation
 
-Make sure you have latest Silly Tavern 1.10.9+ installed  (https://github.com/SillyTavern/SillyTavern)
 
-Make sure you have latest Silly Tavern Extras (19.11.2023) installed (https://github.com/SillyTavern/SillyTavern-Extras)
 
 1. Launch and Open Silly Tavern in browser -> Extensions (at top menu) -> Install extension, paste and save:
 ```
@@ -92,7 +101,7 @@ there are other checkpoints at https://github.com/Rudrabha/Wav2Lip#getting-the-w
 `device = 'cuda' # cpu, cuda`
 
 
-## Manually edit some files (other repos) to make it work:
+## Manually edit 3 files (other repos) to make it work:
 
 5.1 in \SillyTavern-MainBranch\public\index.html
 
@@ -121,73 +130,23 @@ add line:
 if (extension_settings.wav2lip !== undefined && extension_settings.wav2lip.enabled && wav2lipIsGeneratingNow) wav2lipMain("text", 0, "char")
 ```
 
-5.3. in `\SillyTavern-Extras\server.py` BEFORE line 1103 which has: `if args.share:`
+5.3. in `\SillyTavern-Extras\server.py` AFTER line 320 which has: `app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024`
 
 add lines:
 ```
-from flask_cors import cross_origin
-@app.route("/") 
-@cross_origin() #allow all origins all methods. 
-def helloWorld():
-    return "Hello, cross-origin-world!"
-
-# Used for making text xml compatible, needed for voice pitch and speed control
-table = str.maketrans({
-    "<": "&lt;",
-    ">": "&gt;",
-    "&": "&amp;",
-    "'": "&apos;",
-    '"': "&quot;",
-})
-
-def xmlesc(txt):
-    return txt.translate(table)
-    
 if "wav2lip" in modules:
-    print("Initializing wav2lip module")
-    import modules.wav2lip.wav2lip_module as wav2lip_module
-    import json
-    import random
-    from types import SimpleNamespace
-
-    wav2lip_args_json = ```{
-        "checkpoint_path": "modules/wav2lip/checkpoints/wav2lip.pth", 
-        "face": "modules/wav2lip/input/default/", 
-        "audio":"test.wav", 
-        "outfile":"modules/wav2lip/output/wav2lip.mp4", 
-        "img_size":96, 
-        "fps":15, 
-        "wav2lip_batch_size":1024, 
-        "box":[-1, -1, -1, -1], 
-        "face_det_batch_size":16,
-        "pads":[0, 10, 0, 0],
-        "crop":[0, -1, 0, -1], 
-        "nosmooth": "False", 
-        "resize_factor":1, 
-        "rotate":"False"}```
-    wav2lip_args = json.loads(wav2lip_args_json, object_hook=lambda d: SimpleNamespace(**d))
-
-# generate and save video, returns nothing
-@app.route("/api/wav2lip/generate", methods=["GET","POST"]) 
-@app.route("/api/wav2lip/generate/<fname>", methods=["GET","POST"]) 
-def wav2lip_generate(fname="wav2lip"):
-    files = [ f for f in os.listdir("modules/wav2lip/input/") if os.path.isfile(os.path.join("modules/wav2lip/input/",f)) ]
-    rand_r = random.randrange(0, len(files))
-    print("wav2lip starting with input: "+files[rand_r])
-    wav2lip_args.face = "modules/wav2lip/input/default/"+files[rand_r]
-    wav2lip_args.outfile = "modules/wav2lip/output/"+fname+".mp4"
-    wav2lip_module.wav2lip_main(wav2lip_args)
-    return "no"
-
-
-# return created video
-WAV2LIP_OUTPUT_PATH = os.path.join(parent_dir, "modules\\wav2lip\\output\\")
-@app.route("/api/wav2lip/play/<fname>", methods=["GET","POST"]) 
-@cross_origin(headers=['Content-Type']) # Send Access-Control-Allow-Headers def cross_origin_json_post():
-def wav2lip_play(fname: str):
-    print(WAV2LIP_OUTPUT_PATH)
-    print(fname)
-    return send_from_directory(WAV2LIP_OUTPUT_PATH, f"{fname}.mp4")
+    sys.path.append("modules/wav2lip/")
+    from server_wav2lip import *
+        
+    @app.route("/api/wav2lip/generate", methods=["GET","POST"]) 
+    @app.route("/api/wav2lip/generate/<fname>", methods=["GET","POST"]) 
+    def wav2lip_generate(fname="wav2lip"):
+        return wav2lip_server_generate(fname="wav2lip")
+    
+    @app.route("/api/wav2lip/play/<fname>", methods=["GET","POST"]) 
+    @cross_origin(headers=['Content-Type']) # Send Access-Control-Allow-Headers def cross_origin_json_post():
+    def wav2lip_play(fname: str):
+        return wav2lip_server_play(fname)
 ```
 
 ## Optional: other languages and voice pitch
@@ -318,14 +277,14 @@ def load_model(self, lang_model="v3_1_ru.pt"):
 
 8.5 You can make video messages auto generated or you can click a video icon at each message to generate them manually.
 
-9.0 Put your short and low-res input vids/pics into `\SillyTavern-Extras\modules\wav2lip\input\default\` They will be played in random order. Character folder selection in UI is TODO.
+9.0 Put your short (~10-30s) and low-res (~300x400) input vids/pics into `\SillyTavern-Extras\modules\wav2lip\input\default\` They will be played in random order. Face should be present in all frames or it will cause error (e.g. covered with hand). 
 
 
 ## TODO
 1. User setting to limit input audio length to prevent OOM (optional input)
 2. Resize input vids/pics automatically (optional checkbox)
 3. Disable sending a message to LLM while video is generating (optional checkbox in settings)
-
+4. Character folder selection in UI (select)
 
 ## Discussion
 If you have bugs or proposals please open a bug report or a pull request
