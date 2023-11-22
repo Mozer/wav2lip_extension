@@ -19,18 +19,20 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 
 ## News
-2023.11.21 Caching for face detection. Generation speed for cached vids is now almost 2x faster (2 seconds for a short answer, 10 seconds for 11 second long input audio)
+- 2023.11.22 CPU only inference is also very fast with caching! (1 second for a short answer, 15 seconds for 11 second long input audio)
+- 2023.11.21 Caching for face detection. Generation speed for cached vids is now almost 2x faster (2 seconds for a short answer, 10 seconds for 11 second long input audio)
 
 
 ## Requirements: 
-- nvidia GPU with 6+ GB VRAM
+- CPU or nvidia GPU with 6+ GB VRAM
+- if you have less VRAM or Radeon GPU please use CPU, it is also fast
 
 
 ## Notes:
 - wav2lip is built using pytorch with cuda. AMD gpus or CPUs are not tested. You can try, they might work. Please report if they do.
 - Min VRAM: 6 GB for 300x400 input video and short audio. Static input images may require less VRAM (how much?). Hi-res input videos/images and longer audios require more VRAM. Please report if you are able to run it with less VRAM
 - If your LLM model is also in VRAM it can cause to OOM error or result in slower replies if you have shared VRAM. 
-- I tested it with 3060 12GB and was able to have ruGPT3.5-13B-gptq fully loaded into VRAM using autoGPTQ. But sometimes with longer replies (4+ sentences) it went into using shared VRAM and causing drastic drop in video gen speed.
+- I tested it with 3060 12GB and was able to have ruGPT3.5-13B-gptq fully loaded into VRAM using autoGPTQ. But sometimes with longer replies (4+ sentences) it went into using shared VRAM and caused drastic drop in video gen speed.
 - Default silero api server doesn't support other languages, just English
 - Default silero api server doesn't support prosody (voice speed and pitch)
 - Video generation takes some time (about 10s). If your LLM is also in VRAM don't ask it anything during video generation or you can get OOM error. (TODO: disable sending)
@@ -38,21 +40,19 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 ## Performance
 
+Face detection runs rather slow on CPU (55s) rather then GPU (8s), but when all vids have cached face detection - you can use CPU only almost as fast as a GPU! (1 second for a short answer). 
+Cache is made automatically when input video is used for the first time. Cached times are ~2x faster. 
+Inference time for 300x400 10s 25fps input video, no other stuff in vram. CPU here is Ryzen 7 7730U, GPU is nvidia rtx 3600 12 GB. 
 ```
-Inference time for not cached 300x400 10s 25fps input video, no other stuff in vram. Cached times are ~2x faster.
-audio,s			gen,s		VRAM,Gb
-1			4		7.8
-8			15		6.8
-13			18		8.4
-22			24		11.1
-31			32		11.1
-44			103		13.2	used shared vram
-
-Inference time for not cached 200x268 10s 25fps input video, no other stuff in vram. Cached times are ~2x faster.
-audio,s			gen,s		VRAM,Gb
-1			4		3.9
-31			27		10.8	
-44			81		12.8	used shared vram
+device	audio,s	gen,s	face_det	VRAM,Gb		
+CPU	1	55	not cached
+CPU	1	1	cached
+CPU	11	15	cached
+GPU	1	8	not cached
+GPU	1	2	cached
+GPU	11	15	cached
+GPU	31	32	not cached		11.1
+GPU	44	103	not cached		13.2	used shared vram
 ```
 
 
@@ -88,9 +88,11 @@ there are other checkpoints at https://github.com/Rudrabha/Wav2Lip#getting-the-w
 
 4.0 make sure ffmpeg is installed and is put into your PATH environment: https://phoenixnap.com/kb/ffmpeg-windows
 
+5.0 By default CPU is used for inference. You can manually turn on cuda inference here: `\SillyTavern-Extras\modules\wav2lip\wav2lip_module.py`, line 214. Change 'cpu' to 'cuda'^:
+`device = 'cuda' # cpu, cuda`
 
 
-## Manually edit some files to make it work:
+## Manually edit some files (other repos) to make it work:
 
 5.1 in \SillyTavern-MainBranch\public\index.html
 
