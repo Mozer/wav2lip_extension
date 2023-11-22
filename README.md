@@ -9,7 +9,7 @@ https://github.com/Mozer/wav2lip_extension/assets/1599013/1dcab8d0-a7a2-45da-8bb
 Video of [real time usage in Silly Tavern](https://t.me/tensorbanana/745). Warning: harsh language in Russian (Осторожно, есть немного мата):
 
 
-Works with input videos and images. Please notice that for static images only the lips will be animated. Real videos as input are more realistic. Anime pics/vids are NOT TESTED.
+Works with input videos and images. Please notice that for static images only the lips will be animated. Real videos as input are more realistic. Anime pics/vids are not so good looking and sometimes face is not detected.
 
 Low res real vids are the best in terms of realism and performance, i suggest using 300x400 10-30 second long 25fps input video. 
 
