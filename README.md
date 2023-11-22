@@ -152,7 +152,7 @@ if "wav2lip" in modules:
 ## Optional: other languages and voice pitch
 And you are good to go with English! 
 
-If you need Russian or other language please follow [optional steps](https://github.com/Mozer/wav2lip_extension/blob/main/README.md) and modify 2 files.
+If you need Russian or other language please follow [optional steps](https://github.com/Mozer/wav2lip_extension/blob/main/README_optional.md) and modify 2 files.
 
 
 ## Running
