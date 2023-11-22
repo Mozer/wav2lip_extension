@@ -24,10 +24,11 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 
 ## Requirements: 
-- CPU with 10+ RAM or nvidia GPU with 8+ GB VRAM
+- CPU with 10+ Gb RAM or nvidia GPU with 8+ GB VRAM
 - if you have less VRAM or Radeon GPU please use CPU, it is also fast (and turned on by default)
 - latest Silly Tavern 1.10.9+ installed  (https://github.com/SillyTavern/SillyTavern)
 - latest Silly Tavern Extras (19.11.2023) installed (https://github.com/SillyTavern/SillyTavern-Extras)
+- ffmpeg is installed and is put into your PATH environment (https://phoenixnap.com/kb/ffmpeg-windows)
 
 
 ## Notes:
@@ -96,8 +97,6 @@ put wav2lip.pth (416 MB) to '\SillyTavern-extras\modules\wav2lip\checkpoints\'
 
 there are other checkpoints at https://github.com/Rudrabha/Wav2Lip#getting-the-weights but this one is the fastest.
 
-4.0 make sure ffmpeg is installed and is put into your PATH environment: https://phoenixnap.com/kb/ffmpeg-windows
-
 
 
 
@@ -148,16 +147,17 @@ if "wav2lip" in modules:
     def wav2lip_play(fname: str):
         return wav2lip_server_play(fname)
 ```
+And you are good to go with English! 
 
 ## Optional: other languages and voice pitch
-And you are good to go with English! 
 
 If you need Russian or other language please follow [optional steps](https://github.com/Mozer/wav2lip_extension/blob/main/README_optional.md) and modify 2 files.
 
 
 ## Running
 
-7.0 Enable wav2lip and silero-tts modules for silly extras and start it using command line or conda. silero-tts module is optional, you can try other tts engines in Silly
+7.0 Enable wav2lip and silero-tts modules for silly extras and start it using command line or conda. (silero-tts module is optional, you can try other tts engines in Silly)
+
 `python server.py --enable-modules silero-tts,wav2lip`
 
 7.1 start or restart silero extras server to get changes in python code working (close console window and start again using command line or bat file)
