@@ -335,6 +335,7 @@ async function wav2lipMessageButton(e) {
 
 async function onWav2lipOneMessage() {
     wav2lipIsGeneratingNow = true
+	$(this).removeClass("fa-video").addClass("fa-spinner")
 	// click on next tts button
 	$(this).parent().find(".mes_narrate").click();
 	
@@ -359,6 +360,7 @@ function add_video_html()
 	c_mes_img_container.find(".mes_img").remove()
 	c_mes_img_container.find(".mes_img_controls").after(vid_html)
 	scrollChatToBottom();
+	$(document).find(".mes_wav2lip").removeClass("fa-spinner").addClass("fa-video")
 }
 
 async function onMessageReceived() {
@@ -371,9 +373,9 @@ async function onMessageReceived() {
 async function onCharacterMessageRendered() {
 	if (extension_settings.wav2lip.enabled && extension_settings.wav2lip.auto_generate && extension_settings.wav2lip.hide_reply_for_a_while)
 	{
-		console.log("wav2lip onCharacterMessageRendered: hiding reply")
 		let mes_obj = $(".last_mes").find(".mes_text");
-		mes_obj.attr("data-html", mes_obj.html()).html("<span class='wav2lip_recording_label' title='"+mes_obj.html()+"'>[Recording video...]</span>")
+		let mes_length = mes_obj.html().length-7;
+		mes_obj.attr("data-html", mes_obj.html()).html("<span class='wav2lip_recording_label' title='"+mes_obj.html()+"'>[Recording video... "+mes_length+" symbols]</span>")
 	}		
 }
 

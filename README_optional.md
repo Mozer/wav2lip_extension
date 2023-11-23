@@ -74,7 +74,7 @@ def tts_generate():
 
 
 
-6.1 [Optional] edit "silero_api_server\tts.py" to support prosody (voice speed and pitch) 
+6.1 [Optional] edit "silero_api_server\tts.py" to support other languages (ru,ua,de,fr,es and several others, list: https://github.com/snakers4/silero-models/blob/master/models.yml )
 
 If you installed Extras using miniconda files is located somewhere here:
 
@@ -83,18 +83,6 @@ If you installed Extras using miniconda files is located somewhere here:
 If you installed Silly Extras without conda, file is here, (Python310 dir can be Python311):
 
 or 'c:\Users\[USER_NAME]\AppData\Local\Programs\Python\Python310\Lib\site-packages\silero_api_server\tts.py'
-
-in '\silero_api_server\tts.py'
-
-line 80, modify from this: 'audio_path = Path(self.model.save_wav(text=text,speaker=speaker,sample_rate=self.sample_rate))'
-
-into this:
-```
-audio_path = Path(self.model.save_wav(ssml_text=text,speaker=speaker,sample_rate=self.sample_rate))
-```
-
-
-6.2 [Optional] edit "silero_api_server\tts.py" to support other languages (ru,ua,de,fr,es and several others, list: https://github.com/snakers4/silero-models/blob/master/models.yml )
 
 modify lines 18, 19, from this:
 ```

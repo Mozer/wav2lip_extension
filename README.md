@@ -6,16 +6,16 @@ An extension that makes video messages with lipsync to audio from TTS.
 
 https://github.com/Mozer/wav2lip_extension/assets/1599013/1dcab8d0-a7a2-45da-8bbf-416c2a5271bc
 
-Video of [real time usage in Silly Tavern](https://t.me/tensorbanana/745). Warning: harsh language in Russian (есть немного мата):
+Video of [real time usage in Silly Tavern](https://t.me/tensorbanana/745). Warning: harsh language in Russian (есть немного мата).
 
 
 Works with input videos and images. Please notice that for static images only the lips will be animated. Real videos as input are more realistic. Anime pics/vids are not so good looking and sometimes face is not detected.
 
 Low res real vids are the best in terms of realism and performance, i suggest using 300x400 10-30 seconds long 25fps input videos. 
 
-Don't put FullHD+ res vids in input as they will cause OOM errors. Automatic resizing is not done yet (TODO). Resize and cut vids manually.
+Don't put 1080p vids in input as they can cause OOM errors. Automatic resizing is not done yet (TODO). Resize and cut vids manually.
 
-Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There are other lipsync models like Wav2LipHD or Wav2Lip GAN or SadTalkerVideo but they are times slower.
+Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There are other lipsync models like Wav2Lip GAN or Wav2LipHD or SadTalkerVideo but they are slower.
 
 
 ## News
@@ -91,12 +91,6 @@ pip install -r requirements.txt
 ```
 Wait while all the dependencies  are installed. If there are errors - fix them manully or open an issue.
 
-3.0 manually download this checkpoint https://iiitaphyd-my.sharepoint.com/:u:/g/personal/radrabha_m_research_iiit_ac_in/Eb3LEzbfuKlJiR600lQWRxgBIY27JZg80f7V9jtMfbNDaQ?e=TBFBVW
-
-put wav2lip.pth (416 MB) to '\SillyTavern-extras\modules\wav2lip\checkpoints\'
-
-there are other checkpoints at https://github.com/Rudrabha/Wav2Lip#getting-the-weights but this one is the fastest.
-
 
 
 
@@ -148,6 +142,8 @@ if "wav2lip" in modules:
         return wav2lip_server_play(fname)
 ```
 And you are good to go with English! 
+
+
 
 ## Optional: other languages and voice pitch
 
