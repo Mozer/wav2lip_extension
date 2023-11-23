@@ -144,6 +144,7 @@ If you need Russian or other language please follow [optional steps](https://git
 1. Enable wav2lip and silero-tts modules for silly extras and start it using command line or conda. (silero-tts module is optional, you can try other tts engines in Silly)
 
 `python server.py --enable-modules silero-tts,wav2lip`
+
 2. Enable wav2lip in web interface: Extensions -> Wav2lip -> Enabled.
 3. Make sure Silly Tavern is "Connected to API" of extras server. Make sure TTS is enabled in extensions and settings. 
 4. Make sure voice is selected for current character or default character. Turn on TTS auto generation if you also want video auto generation.
