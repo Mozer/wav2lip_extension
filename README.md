@@ -36,10 +36,11 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 - If you don't have much VRAM please use CPU (turned on as default). Min VRAM: 6 GB for 300x400 input video and short audio. Static input images may require less VRAM (how much?). Hi-res input videos/images and longer audios require more VRAM. Please report if you are able to run it with less VRAM
 - If your LLM model is also in VRAM it can cause to OOM error or result in slower replies if you have shared VRAM. 
 - I tested it running on GPU with 3060 12GB and was able to have ruGPT3.5-13B-gptq fully loaded into VRAM using autoGPTQ. But sometimes with longer replies (4+ sentences) it went into using shared VRAM and caused drastic drop in video gen speed.
-- Default silero api server doesn't support other languages, just English
+- Default silero ui in ST doesn't support other languages, just English
 - Default silero api server doesn't support prosody (voice speed and pitch)
 - By default CPU is used for inference. You can manually turn on cuda inference here: `\SillyTavern-Extras\modules\wav2lip\wav2lip_module.py`, line 214. Change 'cpu' to 'cuda': `device = 'cuda' # cpu, cuda`
 - Video generation takes some time (about 5-10s). If you use GPU and your LLM is also in VRAM don't ask it anything during video generation or you can get OOM error.
+- If you make changes in .py files please restart silero extras server to get changes working 
 
 
 ## Performance
@@ -54,6 +55,7 @@ device	audio,s	gen,s	face_det	VRAM,Gb
 CPU	1	55	not cached
 CPU	1	1	cached
 CPU	11	15	cached
+CPU	120	140	cached
 GPU	1	8	not cached	6
 GPU	1	2	cached		6
 GPU	11	15	cached		8
@@ -142,20 +144,11 @@ If you need Russian or other language please follow [optional steps](https://git
 1. Enable wav2lip and silero-tts modules for silly extras and start it using command line or conda. (silero-tts module is optional, you can try other tts engines in Silly)
 
 `python server.py --enable-modules silero-tts,wav2lip`
-
-2. start or restart silero extras server to get changes in python code working (close console window and start again using command line or bat file)
-
-3. Enable wav2lip in web interface: Extensions -> Wav2lip -> Enabled.
-
-4. Make sure Silly Tavern is "Connected to API" of extras server. Make sure TTS is enabled in extensions and settings. 
-
-5. Make sure voice is selected for current character or default character. Turn on TTS auto generation if you also want video auto generation.
-
-6. Make sure language of the characted in dialogue is the same as language in "silero_api_server\tts.py" and "SillyTavern-Extras\server.py". e.g. Russian TTS won't play English words and vice versa.
-
-7. You can make video messages auto generated or you can click a video icon at each message to generate them manually.
-
-8. Put your short (~10-30s) and low-res (~300x400) input vids/pics into `\SillyTavern-Extras\modules\wav2lip\input\default\` They will be played in random order. Face should be present in all frames or it will cause error (e.g. covered with hand). 
+2. Enable wav2lip in web interface: Extensions -> Wav2lip -> Enabled.
+3. Make sure Silly Tavern is "Connected to API" of extras server. Make sure TTS is enabled in extensions and settings. 
+4. Make sure voice is selected for current character or default character. Turn on TTS auto generation if you also want video auto generation.
+5. Make sure language of the characted in dialogue is the same as language in "silero_api_server\tts.py" and "SillyTavern-Extras\server.py". e.g. Russian TTS won't play English words and vice versa.
+6. Put your short (~10-30s) and low-res (~300x400) input vids/pics into `\SillyTavern-Extras\modules\wav2lip\input\default\` They will be played in random order. Face should be present in all frames or it will cause error (e.g. covered with hand). 
 
 
 ## TODO
