@@ -78,13 +78,9 @@ GPU	30	13
 https://github.com/Mozer/wav2lip_extension
 ```
 
-2.0 Now let's clone wav2lip repo into \SillyTavern-extras\modules\
-
-2.1 [optional] activate conda environment
-
-2.2 Type in command line:
+2. Activate conda environment if you are using it. Type in command line:
 ```
-cd \SillyTavern-extras\modules\
+cd SillyTavern-extras\modules\
 git clone https://github.com/Mozer/wav2lip
 cd wav2lip
 pip install -r requirements.txt
@@ -93,10 +89,9 @@ Wait while all the dependencies  are installed. If there are errors - fix them m
 
 
 
-
 ## Manually edit 2 files (other repos) to make it work:
 
-5.1. in \SillyTavern-MainBranch\public\scripts\extesions\tts\index.js
+3. in \SillyTavern-MainBranch\public\scripts\extesions\tts\index.js
 after line 12 add line:
 ```
 import { wav2lipIsGeneratingNow, modify_wav2lipIsGeneratingNow, wav2lipMain} from "../third-party/wav2lip_extension/index.js"
@@ -114,7 +109,7 @@ add line:
 if (extension_settings.wav2lip !== undefined && extension_settings.wav2lip.enabled && wav2lipIsGeneratingNow) wav2lipMain("text", 0, "char")
 ```
 
-5.2. in `\SillyTavern-Extras\server.py` AFTER line 320 which has: `app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024`
+4. in `\SillyTavern-Extras\server.py` AFTER line 320 which has: `app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024`
 
 add lines:
 ```
@@ -132,6 +127,7 @@ if "wav2lip" in modules:
     def wav2lip_play(fname: str):
         return wav2lip_server_play(fname)
 ```
+
 And you are good to go with English! 
 
 
@@ -143,23 +139,23 @@ If you need Russian or other language please follow [optional steps](https://git
 
 ## Running
 
-7.0 Enable wav2lip and silero-tts modules for silly extras and start it using command line or conda. (silero-tts module is optional, you can try other tts engines in Silly)
+1. Enable wav2lip and silero-tts modules for silly extras and start it using command line or conda. (silero-tts module is optional, you can try other tts engines in Silly)
 
 `python server.py --enable-modules silero-tts,wav2lip`
 
-7.1 start or restart silero extras server to get changes in python code working (close console window and start again using command line or bat file)
+2. start or restart silero extras server to get changes in python code working (close console window and start again using command line or bat file)
 
-8.1 Enable wav2lip in web interface: Extensions -> Wav2lip -> Enabled.
+3. Enable wav2lip in web interface: Extensions -> Wav2lip -> Enabled.
 
-8.2 Make sure Silly Tavern is "Connected to API" of extras server. Make sure TTS is enabled in extensions and settings. 
+4. Make sure Silly Tavern is "Connected to API" of extras server. Make sure TTS is enabled in extensions and settings. 
 
-8.3 Make sure voice is selected for current character or default character. Turn on TTS auto generation if you also want video auto generation.
+5. Make sure voice is selected for current character or default character. Turn on TTS auto generation if you also want video auto generation.
 
-8.4 Make sure language of the characted in dialogue is the same as language in "silero_api_server\tts.py" and "SillyTavern-Extras\server.py". e.g. Russian TTS won't play English words and vice versa.
+6. Make sure language of the characted in dialogue is the same as language in "silero_api_server\tts.py" and "SillyTavern-Extras\server.py". e.g. Russian TTS won't play English words and vice versa.
 
-8.5 You can make video messages auto generated or you can click a video icon at each message to generate them manually.
+7. You can make video messages auto generated or you can click a video icon at each message to generate them manually.
 
-9.0 Put your short (~10-30s) and low-res (~300x400) input vids/pics into `\SillyTavern-Extras\modules\wav2lip\input\default\` They will be played in random order. Face should be present in all frames or it will cause error (e.g. covered with hand). 
+8. Put your short (~10-30s) and low-res (~300x400) input vids/pics into `\SillyTavern-Extras\modules\wav2lip\input\default\` They will be played in random order. Face should be present in all frames or it will cause error (e.g. covered with hand). 
 
 
 ## TODO
