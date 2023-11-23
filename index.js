@@ -399,6 +399,7 @@ async function wav2lipMain(text, voiceId, char) {
 jQuery(async () => {
     //getContext().registerSlashCommand('wav2lip', generateVideo, [], '', true, true);
 
+    $('#message_template .mes_narrate').after('<div title="Generate Video" class="mes_wav2lip fa-solid fa-video" data-i18n="[title]Generate Video"></div>')
     $('#extensions_settings').append(renderExtensionTemplate('third-party/wav2lip_extension', 'settings', defaultSettings));
     $('#wav2lip_enabled').on('input', onEnabledInput);
     $('#wav2lip_auto_generate').on('input', onAutoGenerateInput);

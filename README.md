@@ -94,18 +94,9 @@ Wait while all the dependencies  are installed. If there are errors - fix them m
 
 
 
-## Manually edit 3 files (other repos) to make it work:
+## Manually edit 2 files (other repos) to make it work:
 
-5.1 in \SillyTavern-MainBranch\public\index.html
-
-after line 4099 with text: `<div title="Narrate" class="mes_narrate fa-solid fa-bullhorn" data-i18n="[title]Narrate"></div>`
-
-add line:
-```
-<div title="Generate Video" class="mes_wav2lip fa-solid fa-video" data-i18n="[title]Generate Video"></div>
-```
-
-5.2. in \SillyTavern-MainBranch\public\scripts\extesions\tts\index.js
+5.1. in \SillyTavern-MainBranch\public\scripts\extesions\tts\index.js
 after line 12 add line:
 ```
 import { wav2lipIsGeneratingNow, modify_wav2lipIsGeneratingNow, wav2lipMain} from "../third-party/wav2lip_extension/index.js"
@@ -123,7 +114,7 @@ add line:
 if (extension_settings.wav2lip !== undefined && extension_settings.wav2lip.enabled && wav2lipIsGeneratingNow) wav2lipMain("text", 0, "char")
 ```
 
-5.3. in `\SillyTavern-Extras\server.py` AFTER line 320 which has: `app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024`
+5.2. in `\SillyTavern-Extras\server.py` AFTER line 320 which has: `app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024`
 
 add lines:
 ```
