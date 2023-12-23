@@ -2,7 +2,7 @@
 
 Based on [Rudrabha/Wav2Lip](https://github.com/Rudrabha/Wav2Lip) and wrapped in js for Silly Tavern by [Mozer](https://github.com/Mozer)
 
-An extension that makes video messages with lipsync to audio from TTS.
+An extension that makes video messages with lipsync to audio from TTS. Silero TTS and Coqui XTTSv2 are supported.
 
 https://github.com/Mozer/wav2lip_extension/assets/1599013/1dcab8d0-a7a2-45da-8bbf-416c2a5271bc
 
@@ -11,7 +11,7 @@ Video of [real time usage in Silly Tavern](https://t.me/tensorbanana/745). Warni
 
 Works with input videos and images. Please notice that for static images only the lips will be animated. Real videos as input are more realistic. Anime pics/vids are not so good looking and sometimes face is not detected.
 
-Low res real vids are the best in terms of realism and performance, i suggest using 300x400 10-30 seconds long 25fps input videos. 
+Low res real vids are the best in terms of realism and performance, i suggest using 300x400 10-60 seconds long 25fps input videos. 
 
 Don't put 1080p vids in input as they can cause OOM errors. Automatic resizing is not done yet (TODO). Resize and cut vids manually.
 
@@ -19,15 +19,15 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 
 ## News
+- 2023.12.23 - XTTSv2 is now supported, it has amazing TTS quality
 - 2023.11.22 - CPU inference is also very fast with caching! (1 second for a short answer, 15 seconds for 11 second long input audio)
 - 2023.11.21 - Caching for face detection. Generation speed for cached vids is now almost 2x faster (2 seconds for a short answer, 10 seconds for 11 second long input audio)
 
 
 ## Requirements: 
-- CPU with 10+ Gb RAM or nvidia GPU with 8+ GB VRAM
-- if you have less VRAM or Radeon GPU please use CPU, it is also fast (and turned on by default)
-- latest Silly Tavern 1.10.9+ installed  (https://github.com/SillyTavern/SillyTavern)
-- latest Silly Tavern Extras (19.11.2023) installed (https://github.com/SillyTavern/SillyTavern-Extras)
+- CPU with 10+ Gb RAM or nvidia GPU with 8+ GB VRAM. If you have Radeon GPU please use CPU, it is also fast and is turned on by default.
+- latest Silly Tavern staging branch (https://github.com/SillyTavern/SillyTavern/tree/staging)
+- latest Silly Tavern Extras (https://github.com/SillyTavern/SillyTavern-Extras)
 - ffmpeg is installed and is put into your PATH environment (https://phoenixnap.com/kb/ffmpeg-windows)
 
 
@@ -108,7 +108,7 @@ line 458, in function `completeTtsJob()` after this line: `currentTtsJob = null`
 
 add line:
 ```
-if (extension_settings.wav2lip !== undefined && extension_settings.wav2lip.enabled && wav2lipIsGeneratingNow) wav2lipMain("text", 0, "char")
+if (extension_settings.wav2lip !== undefined && extension_settings.wav2lip.enabled && wav2lipIsGeneratingNow) wav2lipMain("text", 0, extension_settings.wav2lip.char_folder, extension_settings.wav2lip.device)
 ```
 
 4. in `\SillyTavern-Extras\server.py` AFTER line 320 which has: `app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024`
@@ -130,11 +130,22 @@ if "wav2lip" in modules:
         return wav2lip_server_play(fname)
 ```
 
-And you are good to go with English! 
+And you are good to go with Silero TTS with English! 
 
 
+## Optional: Cocqui XTTSv2 multilingual
 
-## Optional: other languages and voice pitch
+Oficial guide how to install and run XTTSv2 in Silly Tavern with conda: https://docs.sillytavern.app/extras/extensions/xtts/
+Note: it can also be installed without conda, and without downgrading python and pytorch, simply install the full version of Visual C++ Build Tools. I'm running everything in Python 3.11.5, pytorch 2.1.2+cu121
+To run xtts server you should use this command if you have nvidia card (2 seconds for an average voice message): 
+`python -m xtts_api_server -d=cuda --deepspeed --lowvram --output c:\\SillyTavern-Extras\\`
+To run on CPU (20 seconds for an short voice message) please use command: 
+`python -m xtts_api_server -d=cpu --output c:\\SillyTavern-Extras\\`
+Replace `c:\\SillyTavern-Extras\\` with full path to your SillyTavern-Extras folder, it is needed to pass xtts audio file to Wav2lip.
+Full command can be put into a .bat file, so you won't need to type it every time.
+
+
+## Optional: Silero TTS with other languages and voice pitch
 
 If you need Russian or other language please follow [optional steps](https://github.com/Mozer/wav2lip_extension/blob/main/README_optional.md) and modify 2 files.
 
@@ -153,6 +164,7 @@ If you need Russian or other language please follow [optional steps](https://git
 
 
 ## TODO
+0. import extension settings api url for live stream
 1. User setting to limit input audio length to prevent OOM (optional input)
 2. Resize input vids/pics automatically (optional checkbox)
 3. Disable sending a message to LLM while video is generating (optional checkbox in settings)

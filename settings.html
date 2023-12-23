@@ -10,23 +10,75 @@
                 <input id="wav2lip_enabled" type="checkbox" />
                 Module enabled 
             </label>
-			<label for="wav2lip_auto_generate" class="checkbox_label" title="Wav2lip auto generate videos">
+			<label for="wav2lip_auto_generate" class="checkbox_label" title="Wav2lip auto generate videos (TTS auto gen should also be ON)">
                 <input id="wav2lip_auto_generate" type="checkbox" />
-                Auto generate (TTS auto gen should also be ON)
+                Auto generate 
             </label>
 			<label for="wav2lip_hide_reply_for_a_while" class="checkbox_label" title="Hide reply and show [Recording video...] instead of message text while the video is being recorded">
                 <input id="wav2lip_hide_reply_for_a_while" type="checkbox" />
                 Show [Recording video...]
             </label>
-			<label for="wav2lip_char_folder" class="checkbox_label" title="Character folder with vids/photos (Default is: default)">
-				Char folder with vids/photos
-               <input id="wav2lip_char_folder" type="text" value="default">
+			<label for="wav2lip_device" class="checkbox_label" title="Inference device">
+				Device
+				<span>
+					<select id="wav2lip_device" name="wav2lip_device">
+						<option value="cpu">cpu</option>
+						<option value="cuda">cuda</option>
+					</select>
+				</span>
             </label>
+			<label for="wav2lip_mode" class="checkbox_label" title="Mode">
+				Mode
+				<span>
+					<select id="wav2lip_mode" name="wav2lip_mode">
+						<option value="message">video message</option>
+						<option value="live">live stream</option>
+					</select>
+				</span>
+            </label>
+			<label for="wav2lip_char_folder" class="checkbox_label" title="Character folder with vids/photos (Default is: default)">
+				Char folder with vids
+				<span>
+					<select id="wav2lip_char_folder" name="wav2lip_char_folder">
+						<option value="default">default</option>
+					</select>
+				</span>
+            </label>
+			<label for="wav2lip_silero_language" class="checkbox_label" title="Silero language ">
+				Silero language
+				<span>
+					<select id="wav2lip_silero_language" name="wav2lip_silero_language">
+						<option value="v3_en">en (v3_en)</option>
+					</select>
+				</span>
+            </label>
+			<label for="wav2lip_silero_speaker" class="checkbox_label" title="Silero speaker ">
+				Silero voice is in <span id="wav2lip_open_tts_voice_list" class="note-link-span">TTS</span> 
+				<input id="silero_reload_speakers" class="menu_button" type="submit" title="Reload Silero voice list" value="Reload voice list">
+			</label>
 			<label for="wav2lip_silero_pitch" class="checkbox_label" title="Silero pitch ">
-               Silero pitch (select)
+               Silero pitch
+				<span>
+					<select id="wav2lip_silero_pitch" name="wav2lip_silero_pitch">
+						<option value="x-low">x-low</option>
+						<option value="low">low</option>
+						<option value="medium">medium</option>
+						<option value="high">high</option>
+						<option value="x-high">x-high</option>
+					</select>
+				</span>
             </label>
 			<label for="wav2lip_silero_speed" class="checkbox_label" title="Silero speed ">
-               Silero speed (select)
+				Silero speed
+				<span>
+					<select id="wav2lip_silero_speed" name="wav2lip_silero_speed">
+						<option value="x-slow">x-slow</option>
+						<option value="slow">slow</option>
+						<option value="medium">medium</option>
+						<option value="fast">fast</option>
+						<option value="x-fast">x-fast</option>
+					</select>
+				</span>
             </label>
         </div>
     </div>

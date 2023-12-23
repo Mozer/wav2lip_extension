@@ -15,7 +15,7 @@ class Wav2LipProvider {
     separator = ' .. '
 
     defaultSettings = {
-        provider_endpoint: "http://localhost:8001/tts",
+        provider_endpoint: "http://localhost:8001/wav2lip",
         voiceMap: {}
     }
 
@@ -69,18 +69,18 @@ class Wav2LipProvider {
     //  wav2lip Interfaces //
     //#################//
 
-    async generateWav2lip(text, voiceId){
-        const response = await this.fetchWav2LipGeneration(text, voiceId)
+    async generateWav2lip(text, voiceId, device, char_folder){
+        const response = await this.fetchWav2LipGeneration(text, voiceId, device, char_folder)
         return response
     }
 
     //###########//
     // API CALLS //
     //###########//
-    async fetchWav2LipGeneration(inputText, voiceId) {
+    async fetchWav2LipGeneration(inputText, voiceId, device, char_floder) {
         console.info(`Generating new wav2lip for voice_id ${voiceId}`)
         const response = await doExtrasFetch(
-            `${this.settings.provider_endpoint}/generate`,
+            `${this.settings.provider_endpoint}/generate/${char_floder}/${device}`,
             {
                 method: 'POST',
                 headers: {
@@ -99,4 +99,43 @@ class Wav2LipProvider {
         }
         return response
     }
+	
+	async fetchWav2LipSileroSetLang(silero_language) {
+        console.info(`Setting fetchWav2LipSileroSetLang ${silero_language}`)
+		const response = await doExtrasFetch(
+			`${this.settings.provider_endpoint}/silero_set_lang/`+silero_language,
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache'  // Added this line to disable caching of file so new files are always played - Rolyat 7/7/23
+				}
+			}
+		)
+		if (!response.ok) {
+			toastr.error(response.statusText, 'Wav2Lip set language '+silero_language+' Failed');
+			throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+		}
+		return response
+	}
+	
+	async fetchWav2LipCharFolders() {
+        console.info(`Getting fetchWav2LipCharFolders`)
+		const response = await doExtrasFetch(
+			`${this.settings.provider_endpoint}/get_chars`,
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache'  // Added this line to disable caching of file so new files are always played - Rolyat 7/7/23
+				}
+			}
+		)
+		if (!response.ok) {
+			toastr.error(response.statusText, 'Wav2Lip get chars Failed');
+			throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+		}
+		return response
+	}
+	
 }

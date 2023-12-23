@@ -41,10 +41,16 @@ let wav2lipIsGeneratingNow = false
 
 
 const defaultSettings = {
-    provider_endpoint: "http://localhost:8001/tts",
+    provider_endpoint: "http://localhost:8001/wav2lip", //was tts
     enabled: 1,
     auto_generate: 1,
     hide_reply_for_a_while: 1,
+    silero_language: "v3_en",
+    silero_pitch: "medium",
+    silero_speed: "medium",
+    mode: "live", // message, live
+    char_folder: "default", // inside input folder
+    device: "cpu", // cpu,cuda
 }
 
 async function loadSettings() {
@@ -61,25 +67,44 @@ async function loadSettings() {
     $('#wav2lip_enabled').prop('checked', extension_settings.wav2lip.enabled);
     $('#wav2lip_auto_generate').prop('checked', extension_settings.wav2lip.auto_generate);
     $('#wav2lip_hide_reply_for_a_while').prop('checked', extension_settings.wav2lip.hide_reply_for_a_while);
-
-    //await Promise.all([loadSamplers(), loadModels()]);
+    $('#wav2lip_silero_language').prop('selected', extension_settings.wav2lip.silero_language);
+    $('#wav2lip_silero_pitch').val(extension_settings.wav2lip.silero_pitch).change();
+    $('#wav2lip_silero_speed').val(extension_settings.wav2lip.silero_speed).change();
+	$('#wav2lip_mode').val(extension_settings.wav2lip.mode).change();
+	$('#wav2lip_device').val(extension_settings.wav2lip.device).change();
+	$('#wav2lip_char_folder').prop('selected', extension_settings.wav2lip.char_folder);
+	extension_settings.wav2lip.provider_endpoint = $('#extensions_url').val()+"/api/wav2lip"
 }
 
 async function onEnabledInput() {
     extension_settings.wav2lip.enabled = !!$(this).prop('checked');
+	if (extension_settings.wav2lip.enabled) 
+	{
+		eventSource.on(event_types.MESSAGE_RECEIVED, onMessageReceived)
+		eventSource.on(event_types.CHARACTER_MESSAGE_RENDERED, onCharacterMessageRendered)
+	}
     saveSettingsDebounced();
 }
 
 async function onAutoGenerateInput() {
     extension_settings.wav2lip.auto_generate = !!$(this).prop('checked');
+	if (extension_settings.wav2lip.auto_generate) 
+	{
+		eventSource.on(event_types.MESSAGE_RECEIVED, onMessageReceived)
+		eventSource.on(event_types.CHARACTER_MESSAGE_RENDERED, onCharacterMessageRendered)
+	}
     saveSettingsDebounced();
 }
 
 async function onHideReplyInput() {
     extension_settings.wav2lip.hide_reply_for_a_while = !!$(this).prop('checked');
+	if (extension_settings.wav2lip.hide_reply_for_a_while) 
+	{
+		eventSource.on(event_types.MESSAGE_RECEIVED, onMessageReceived)
+		eventSource.on(event_types.CHARACTER_MESSAGE_RENDERED, onCharacterMessageRendered)
+	}
     saveSettingsDebounced();
 }
-
 
 function getRawLastMessage() {
     const getLastUsableMessage = () => {
@@ -112,9 +137,6 @@ async function generateVideo(_, trigger, message, callback) {
         toastr.warning("Extensions API is not connected or doesn't provide wav2lip module. Enable Stable Horde to generate images.");
         return;
     }
-
-    //extension_settings.wav2lip.sampler = $('#wav2lip_sampler').find(':selected').val();
-    //extension_settings.wav2lip.model = $('#wav2lip_model').find(':selected').val();
 
     trigger = trigger.trim();
     const generationType = getGenerationType(trigger);
@@ -195,46 +217,6 @@ async function sendGenerationRequest(generationType, prompt, characterName = nul
     const filename = `${characterName}_${humanizedDateTime()}`;
     const base64Image = await saveBase64AsFile(result.data, characterName, filename, result.format);
     callback ? callback(prompt, base64Image) : sendMessage(prompt, base64Image);
-}
-
-/**
- * Generates an "extras" image using a provided prompt and other settings.
- *
- * @param {string} prompt - The main instruction used to guide the image generation.
- * @returns {Promise<{format: string, data: string}>} - A promise that resolves when the image generation and processing are complete.
- */
-async function generateExtrasImage(prompt) {
-    const url = new URL(getApiUrl());
-    url.pathname = '/api/image';
-    const result = await doExtrasFetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            prompt: prompt,
-            sampler: extension_settings.wav2lip.sampler,
-            steps: extension_settings.wav2lip.steps,
-            scale: extension_settings.wav2lip.scale,
-            width: extension_settings.wav2lip.width,
-            height: extension_settings.wav2lip.height,
-            negative_prompt: extension_settings.wav2lip.negative_prompt,
-            restore_faces: !!extension_settings.wav2lip.restore_faces,
-            enable_hr: !!extension_settings.wav2lip.enable_hr,
-            karras: !!extension_settings.wav2lip.horde_karras,
-            hr_upscaler: extension_settings.wav2lip.hr_upscaler,
-            hr_scale: extension_settings.wav2lip.hr_scale,
-            denoising_strength: extension_settings.wav2lip.denoising_strength,
-            hr_second_pass_steps: extension_settings.wav2lip.hr_second_pass_steps,
-        }),
-    });
-
-    if (result.ok) {
-        const data = await result.json();
-        return { format: 'jpg', data: data.image };
-    } else {
-        throw new Error();
-    }
 }
 
 
@@ -351,16 +333,38 @@ async function onWav2lipOneMessage() {
 	console.log("onWav2lipOneMessage with: "+message.mes)
 }
 
-function add_video_html()
+// video message
+function add_video_html_to_message()
 {
 	let vid_html = '';
-	vid_html += '<video width="500" height="500" class="mes_img mes_img_video" src="'+extension_settings.apiUrl+'/api/wav2lip/play/wav2lip?r='+Date.now()+'" autoplay controls></video>'
+	vid_html += '<video width="500" height="500" class="mes_img mes_img_video" src="'+extension_settings.apiUrl+'/api/wav2lip/play/'+extension_settings.char_folder+'/wav2lip?r='+Date.now()+'" autoplay controls></video>'
 	let c_mes_img_container = $(".mes_img_container").last()
 	c_mes_img_container.css("display", "block")
 	c_mes_img_container.find(".mes_img").remove()
 	c_mes_img_container.find(".mes_img_controls").after(vid_html)
 	scrollChatToBottom();
 	$(document).find(".mes_wav2lip").removeClass("fa-spinner").addClass("fa-video")
+}
+
+// live stream create
+async function live_video_create_html()
+{
+	if (!$("#wav2lip_live_wrap").length)
+	{
+		console.log("wav2lip live: created wrap")
+		let vid_html = '';
+		vid_html += '<div id="wav2lip_live_wrap"><video class="wav2lip_live_video" data-api_url="'+extension_settings.apiUrl+'" data-char_folder="'+extension_settings.wav2lip.char_folder+'" src="'+extension_settings.apiUrl+'/api/wav2lip/play/'+extension_settings.wav2lip.char_folder+'/silence" loop autoplay></video><div>';
+		$("#chat").append(vid_html)
+	}
+}
+
+
+// live stream play response
+function live_video_play_response()
+{
+	$(".wav2lip_live_video").removeAttr("loop");
+	$(".wav2lip_live_video").attr("src", extension_settings.apiUrl+'/api/wav2lip/play/'+extension_settings.char_folder+'/wav2lip?r='+Date.now());
+	$(".wav2lip_live_video").attr("onended", "$(this).attr(\'onended\', \'\'); $(this).attr(\'loop\', \'\'); $(this).attr(\'src\', $(this).attr(\'data-api_url\')+\'/api/wav2lip/play/\'+$(this).attr(\'data-char_folder\')+\'/silence\')");
 }
 
 async function onMessageReceived() {
@@ -374,27 +378,200 @@ async function onCharacterMessageRendered() {
 	if (extension_settings.wav2lip.enabled && extension_settings.wav2lip.auto_generate && extension_settings.wav2lip.hide_reply_for_a_while)
 	{
 		let mes_obj = $(".last_mes").find(".mes_text");
-		let mes_length = mes_obj.html().length-7;
-		mes_obj.attr("data-html", mes_obj.html()).html("<span class='wav2lip_recording_label' title='"+mes_obj.html()+"'>[Recording video... "+mes_length+" symbols]</span>")
+		let mes_length = mes_obj.text().length;
+		mes_obj.attr("data-html", mes_obj.html()).html("<span class='wav2lip_recording_label' title='"+mes_obj.text()+"'>[Recording video... "+mes_length+" symbols]</span>")
+		if (extension_settings.wav2lip.mode == 'live') live_video_create_html()
 	}		
 }
 
 function onCharacterVideoRendered() {
 	if (extension_settings.wav2lip.enabled && extension_settings.wav2lip.auto_generate && extension_settings.wav2lip.hide_reply_for_a_while)
 	{
-		console.log("wav2lip onCharacterMessageRendered: showing reply")
+		//console.log("wav2lip onCharacterMessageRendered: showing reply")
 		let mes_obj = $(".last_mes").find(".mes_text");
 		mes_obj.html(mes_obj.attr("data-html")).removeAttr("data-html")
+		//$( ".sd_message_gen" ).last().trigger( "click" ); // sd auto gen
 	}		
 }
 
-async function wav2lipMain(text, voiceId, char) {
-    let response = await wav2LipProvider.generateWav2lip(text, voiceId)
+async function wav2lipMain(text, voiceId, char, device) {
+    let response = await wav2LipProvider.generateWav2lip(text, voiceId, device, char)
 	console.log("got wav2lip responce")
-	add_video_html()
+	if (extension_settings.wav2lip.mode == 'live') 
+	{
+		console.log("adding live video")
+		live_video_play_response()
+	}
+	else add_video_html_to_message()
 	onCharacterVideoRendered()
 	wav2lipIsGeneratingNow = false
 }
+
+/*
+old  list
+ ['https://models.silero.ai/models/tts/de/v3_de.pt',
+ 'https://models.silero.ai/models/tts/en/v3_en.pt',
+ 'https://models.silero.ai/models/tts/en/v3_en_indic.pt',
+ 'https://models.silero.ai/models/tts/es/v3_es.pt',
+ 'https://models.silero.ai/models/tts/fr/v3_fr.pt',
+ 'https://models.silero.ai/models/tts/indic/v3_indic.pt',
+ 'https://models.silero.ai/models/tts/ru/v3_1_ru.pt',
+ 'https://models.silero.ai/models/tts/tt/v3_tt.pt',
+ 'https://models.silero.ai/models/tts/ua/v3_ua.pt',
+ 'https://models.silero.ai/models/tts/uz/v3_uz.pt',
+ 'https://models.silero.ai/models/tts/xal/v3_xal.pt']
+*/
+function fill_wav2lip_silero_language()
+{
+	// https://models.silero.ai/models/tts/
+	let langs_arr = {
+		'en':['v3_en', 'v2_lj', 'v3_en_indic'],
+		'ba':['v2_aigul'],
+		'cyr':['v4_cyrillic'],
+		'de':['v3_de', 'v2_thorsten'],
+		'es':['v3_es', 'v2_tux'],
+		'fr':['v3_fr', 'v2_gilles'],
+		'indic':['v3_indic', 'v4_indic'],
+		'multi':['v2_multi'],
+		'ru':['v3_1_ru', 'v4_ru', 'ru_v3', 'v2_aidar', 'v2_baya', 'v2_irina', 'v2_kseniya', 'v2_natasha', 'v2_ruslan'],
+		'tt':['v2_dilyara', 'v3_tt'],
+		'ua':['v21_mykyta_48k', 'v22_mykyta_48k', 'v3_ua', 'v4_ua'],
+		'uz':['v3_uz', 'v4_uz', 'v2_dilnavoz'],
+		'xal':['v3_xal', 'v2_erdni'],
+	};
+	let langs_html = '';
+	let selected_attr = '';
+
+	for (var lang in langs_arr)
+	{
+		for (var lang_file in langs_arr[lang])
+		{
+			if (extension_settings.wav2lip.silero_language == langs_arr[lang][lang_file]) selected_attr = ' selected'
+			else selected_attr = ' '
+			langs_html += '<option value="'+langs_arr[lang][lang_file]+'" '+selected_attr+'>'+lang+' ('+langs_arr[lang][lang_file]+")</option>\r\n"
+		}
+	}
+	$("#wav2lip_silero_language").html(langs_html)
+}
+
+// folders inside extras/modules/wav2lip/input/
+async function fill_wav2lip_char_folders()
+{
+	let chars_html = '';
+	let selected_attr = '';
+
+	//let chars_arr = ['default', 'test'];
+	const chars_resp = await wav2LipProvider.fetchWav2LipCharFolders()
+	let chars_arr = await chars_resp.json()
+	console.log(chars_arr)
+	for (var char_folder in chars_arr)
+	{
+		
+			if (extension_settings.wav2lip.char_folder == chars_arr[char_folder]) selected_attr = ' selected'
+			else selected_attr = ' '
+			chars_html += '<option value="'+chars_arr[char_folder]+'" '+selected_attr+'>'+chars_arr[char_folder]+"</option>\r\n"
+		
+	}
+	$("#wav2lip_char_folder").html(chars_html)
+}
+
+
+async function onSileroLanguageChange()
+{
+	extension_settings.wav2lip.silero_language = $(document).find("#wav2lip_silero_language").val();
+    saveSettingsDebounced();
+	console.log("new lang file is "+$(document).find("#wav2lip_silero_language").val() );
+	// call api to load model file
+	let response = await wav2LipProvider.fetchWav2LipSileroSetLang(extension_settings.wav2lip.silero_language)
+	$("#tts_provider").trigger("change");
+	setTimeout(function() {
+		$("#tts_voicemap_char_DefaultVoice_voice option:eq(1)").attr("selected", "selected");
+		$("#tts_voicemap_char_DefaultVoice_voice").trigger("change");
+	}, 1000);
+}
+
+async function onSileroPitchChange()
+{
+	extension_settings.wav2lip.silero_pitch = $(document).find("#wav2lip_silero_pitch").val();
+    saveSettingsDebounced();
+	console.log("new pitch is "+$(document).find("#wav2lip_silero_pitch").val() );
+}
+
+async function onSileroSpeedChange()
+{
+	extension_settings.wav2lip.silero_speed = $(document).find("#wav2lip_silero_speed").val();
+    saveSettingsDebounced();
+	console.log("new speed is "+$(document).find("#wav2lip_silero_speed").val() );
+}
+
+async function onSileroReloadSpeakers()
+{
+	$("#tts_provider").trigger("change");
+	setTimeout(function() {
+		$("#tts_voicemap_char_DefaultVoice_voice option:eq(1)").attr("selected", "selected");
+		$("#tts_voicemap_char_DefaultVoice_voice").trigger("change");
+	}, 1000);
+}
+
+async function onModeChange()
+{
+	extension_settings.wav2lip.mode = $(document).find("#wav2lip_mode").val();
+    saveSettingsDebounced();
+	console.log("new mode is "+$(document).find("#wav2lip_mode").val() );
+	//if (extension_settings.wav2lip.mode == 'live') live_video_create_html()
+	if (extension_settings.wav2lip.mode == 'message') live_video_remove_html()
+}
+
+async function onDeviceChange()
+{
+	extension_settings.wav2lip.device = $(document).find("#wav2lip_device").val();
+    saveSettingsDebounced();
+	console.log("new device is "+$(document).find("#wav2lip_device").val() );
+}
+
+async function onCharFolderChange()
+{
+	extension_settings.wav2lip.char_folder = $(document).find("#wav2lip_char_folder").val();
+    saveSettingsDebounced();
+	console.log("new char folder is "+$(document).find("#wav2lip_char_folder").val() );
+}
+
+
+function onExtensionsUrlChange()
+{
+	extension_settings.wav2lip.provider_endpoint = $('#extensions_url').val()+"/api/wav2lip"
+}
+
+
+function onMessageTextClick()
+{
+	if ($(this)[0].hasAttribute("data-html"))
+	{
+		let mes_obj = $(this);
+		mes_obj.html(mes_obj.attr("data-html")).removeAttr("data-html")
+	}
+}
+
+function live_video_remove_html()
+{
+	$("#wav2lip_live_wrap").remove();
+}
+
+function open_tts_voice_list()
+{
+	console.log("in open_tts_voice_list");
+	$("#tts_settings .inline-drawer-toggle").trigger("click");
+	
+	setTimeout(function(){
+		$("#tts_voicemap_char_DefaultVoice_voice").css('background-color', "red");
+		setTimeout(function(){
+			$("#tts_voicemap_char_DefaultVoice_voice").css('background-color', "unset");
+		}, 500);
+	}, 500);
+}
+
+
+
 
 jQuery(async () => {
     //getContext().registerSlashCommand('wav2lip', generateVideo, [], '', true, true);
@@ -404,12 +581,31 @@ jQuery(async () => {
     $('#wav2lip_enabled').on('input', onEnabledInput);
     $('#wav2lip_auto_generate').on('input', onAutoGenerateInput);
     $('#wav2lip_hide_reply_for_a_while').on('input', onHideReplyInput);
-
+    $('#wav2lip_silero_language').on('change', onSileroLanguageChange)
+    $('#wav2lip_silero_pitch').on('change', onSileroPitchChange)
+    $('#wav2lip_silero_speed').on('change', onSileroSpeedChange)
+    $('#wav2lip_mode').on('change', onModeChange)
+    $('#wav2lip_device').on('change', onDeviceChange)
+    $('#wav2lip_char_folder').on('change', onCharFolderChange)
+	$('#extensions_url').on('change', onExtensionsUrlChange)
+	
+	
 	$(document).on('click', '.mes_wav2lip', onWav2lipOneMessage);
-
-    await loadSettings();
+	$(document).on('click', '#silero_reload_speakers', onSileroReloadSpeakers);
+	$(document).on('click', '.mes_text', onMessageTextClick);
+	$(document).on('click', '#wav2lip_live_wrap', live_video_remove_html);
+	$(document).on('click', '#wav2lip_open_tts_voice_list', open_tts_voice_list);
+	
+    await loadSettings()
 	await wav2LipProvider.loadSettings(extension_settings.wav2lip)
+	await fill_wav2lip_silero_language()
+	await fill_wav2lip_char_folders()
 	
 	eventSource.on(event_types.MESSAGE_RECEIVED, onMessageReceived)
 	eventSource.on(event_types.CHARACTER_MESSAGE_RENDERED, onCharacterMessageRendered)
+	
+	//$( document ).on( "ended", ".wav2lip_live_video", function() {
+	//  alert( "Goodbye!" );  // jQuery 1.7+
+	//});
+
 });

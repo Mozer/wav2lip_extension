@@ -2,3 +2,16 @@
     display: block;
 }
 
+#wav2lip_live_wrap {
+    display: block;
+	position: fixed;
+	top: 30px;
+	left: 0px;
+	width: 400px;
+    height: 400px;
+}
+
+#wav2lip_live_wrap video {
+   max-height: 400px;
+}
+
