@@ -135,14 +135,14 @@ And you are good to go with Silero TTS with English!
 
 ## Optional: Cocqui XTTSv2 multilingual
 
-Oficial guide how to install and run XTTSv2 in Silly Tavern with conda: https://docs.sillytavern.app/extras/extensions/xtts/
-Note: it can also be installed without conda, and without downgrading python and pytorch, simply install the full version of Visual C++ Build Tools. I'm running everything in Python 3.11.5, pytorch 2.1.2+cu121
-To run xtts server you should use this command if you have nvidia card (2 seconds for an average voice message): 
+1. Official guide how to install and run XTTSv2 in Silly Tavern with conda: https://docs.sillytavern.app/extras/extensions/xtts/
+2. Note: it can also be installed without conda, and without downgrading python and pytorch, simply install the full version of Visual C++ Build Tools. I'm running everything in Python 3.11.5, pytorch 2.1.2+cu121
+3. To run xtts server you should use this command if you have nvidia card (2 seconds for an average voice message): 
 `python -m xtts_api_server -d=cuda --deepspeed --lowvram --output c:\\SillyTavern-Extras\\`
-To run on CPU (20 seconds for an short voice message) please use command: 
+4. To run on CPU (20 seconds for an short voice message) please use command: 
 `python -m xtts_api_server -d=cpu --output c:\\SillyTavern-Extras\\`
-Replace `c:\\SillyTavern-Extras\\` with full path to your SillyTavern-Extras folder, it is needed to pass xtts audio file to Wav2lip.
-Full command can be put into a .bat file, so you won't need to type it every time.
+5. Replace `c:\\SillyTavern-Extras\\` with full path to your SillyTavern-Extras folder, it is needed to pass xtts audio file to Wav2lip.
+6. Full command can be put into a .bat file, so you won't need to type it every time.
 
 
 ## Optional: Silero TTS with other languages and voice pitch
