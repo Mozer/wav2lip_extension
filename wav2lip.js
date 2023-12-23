@@ -69,18 +69,18 @@ class Wav2LipProvider {
     //  wav2lip Interfaces //
     //#################//
 
-    async generateWav2lip(text, voiceId, device, char_folder){
-        const response = await this.fetchWav2LipGeneration(text, voiceId, device, char_folder)
+    async generateWav2lip(text, voiceId, device, char_folder, audio){
+        const response = await this.fetchWav2LipGeneration(text, voiceId, device, char_folder, audio)
         return response
     }
 
     //###########//
     // API CALLS //
     //###########//
-    async fetchWav2LipGeneration(inputText, voiceId, device, char_floder) {
+    async fetchWav2LipGeneration(inputText, voiceId, device, char_floder, audio) {
         console.info(`Generating new wav2lip for voice_id ${voiceId}`)
         const response = await doExtrasFetch(
-            `${this.settings.provider_endpoint}/generate/${char_floder}/${device}`,
+            `${this.settings.provider_endpoint}/generate/${char_floder}/${device}/${audio}`,
             {
                 method: 'POST',
                 headers: {

@@ -1,7 +1,7 @@
 # Optional readme
-## Optional steps to make work other languages and voice pitch
+## Optional steps to make Silero TTS work with other languages
 
-6.0. [Optional] edit "\SillyTavern-Extras\server.py" to make other languages working (English is working by default):
+1. [Optional] edit "\SillyTavern-Extras\server.py" to make other languages working (English is working by default):
 
 lines 818-841, replace whole old tts_generate() function with new one. OLD:
 ```
@@ -30,7 +30,7 @@ def tts_generate():
         print(e)
         abort(500, voice["speaker"])
 ```
-replace with this NEW one: And change language and model_id for your desired language. Set your desired voice pitch and speed. Note: you need to restart extras server to make changes in code work
+replace with this NEW one: Also change language and model_id for your desired language. Set your desired voice pitch and speed. Note: you need to restart extras server to make changes in code work
 ```
 # Added fix for Silero not working as new files were unable to be created if one already existed. - Rolyat 7/7/23
 # Added hardcoded language, voice pitch and speed. TODO: in UI
@@ -72,11 +72,11 @@ def tts_generate():
         abort(500, voice["speaker"])
 ```
 
-for pitch and speed
+2. [optional] Silero pitch and speed controls
  
-tts/silerotts.js	repalce line 128 with these 3 lines:
+Edit file c:\DATA\LLM\SillyTavern\public\scripts\extensions\tts\index.js
+in function fetchTtsGeneration(inputText, voiceId) after line 134 with text '"speaker": voiceId,' add 2 more lines:
 ```
-                    "speaker": voiceId,
                     "voice_pitch": $("#wav2lip_silero_pitch").val(),
                     "voice_speed": $("#wav2lip_silero_speed").val(),
 ```

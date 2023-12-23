@@ -95,21 +95,21 @@ Wait while all the dependencies  are installed. If there are errors - fix them m
 ## Manually edit 2 files (other repos) to make it work:
 
 3. in \SillyTavern-MainBranch\public\scripts\extesions\tts\index.js
-after line 12 add line:
+after line 13 add line:
 ```
 import { wav2lipIsGeneratingNow, modify_wav2lipIsGeneratingNow, wav2lipMain} from "../third-party/wav2lip_extension/index.js"
 ```
-line 440, in `function processAudioJobQueue()` modify from: `playAudioData(currentAudioJob)`
+line 451, in `function processAudioJobQueue()` modify from: `playAudioData(currentAudioJob)`
 modify to:
 ```
-if (wav2lipIsGeneratingNow !== true) playAudioData(currentAudioJob)
+if (wav2lipIsGeneratingNow !== true) playAudioData(currentAudioJob);
 ```
 
 line 458, in function `completeTtsJob()` after this line: `currentTtsJob = null`
 
 add line:
 ```
-if (extension_settings.wav2lip !== undefined && extension_settings.wav2lip.enabled && wav2lipIsGeneratingNow) wav2lipMain("text", 0, extension_settings.wav2lip.char_folder, extension_settings.wav2lip.device)
+if (extension_settings.wav2lip !== undefined && extension_settings.wav2lip.enabled && wav2lipIsGeneratingNow) wav2lipMain("text", 0, extension_settings.wav2lip.char_folder, extension_settings.wav2lip.device);
 ```
 
 4. in `\SillyTavern-Extras\server.py` AFTER line 320 which has: `app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024`
@@ -121,14 +121,33 @@ if "wav2lip" in modules:
     from server_wav2lip import *
         
     @app.route("/api/wav2lip/generate", methods=["GET","POST"]) 
-    @app.route("/api/wav2lip/generate/<fname>", methods=["GET","POST"]) 
-    def wav2lip_generate(fname="wav2lip"):
-        return wav2lip_server_generate(fname="wav2lip")
+    @app.route("/api/wav2lip/generate/<char_folder>", methods=["GET","POST"]) 
+    @app.route("/api/wav2lip/generate/<char_folder>/<device>", methods=["GET","POST"]) 
+    @app.route("/api/wav2lip/generate/<char_folder>/<device>/<audio>", methods=["GET","POST"]) 
+    @cross_origin(headers=['Content-Type'])
+    def wav2lip_generate(char_folder="default",device="cpu",audio="test"):
+        return wav2lip_server_generate(char_folder, device, audio)
     
-    @app.route("/api/wav2lip/play/<fname>", methods=["GET","POST"]) 
-    @cross_origin(headers=['Content-Type']) # Send Access-Control-Allow-Headers def cross_origin_json_post():
-    def wav2lip_play(fname: str):
-        return wav2lip_server_play(fname)
+    @app.route("/api/wav2lip/play/<char_folder>/<fname>", methods=["GET","POST"]) 
+    @cross_origin(headers=['Content-Type'])
+    def wav2lip_play(fname: str, char_folder: str):
+        return wav2lip_server_play(fname, char_folder)
+        
+    @app.route("/api/wav2lip/silero_set_lang/<fname>", methods=["GET","POST"]) 
+    @cross_origin(headers=['Content-Type'])
+    def wav2lip_silero_set_lang(fname: str):
+        return wav2lip_server_silero_set_lang(tts_service, fname)
+    
+    @app.route("/api/wav2lip/get_chars", methods=["GET","POST"]) 
+    @cross_origin(headers=['Content-Type'])
+    def wav2lip_get_chars():
+        return wav2lip_server_get_chars()         
+    
+    # override old generate
+    @app.route("/api/tts/generate", methods=["POST"])
+    def wav2lip_tts_generate():
+        voice = request.get_json()
+        return wav2lip_server_tts_generate(tts_service, voice)
 ```
 
 And you are good to go with Silero TTS with English! 

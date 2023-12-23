@@ -395,7 +395,10 @@ function onCharacterVideoRendered() {
 }
 
 async function wav2lipMain(text, voiceId, char, device) {
-    let response = await wav2LipProvider.generateWav2lip(text, voiceId, device, char)
+	let audio_file = "test" // silero
+	if ($( "#tts_provider" ).val() == "XTTSv2") audio_file = "out" // xttsv2
+	
+    let response = await wav2LipProvider.generateWav2lip(text, voiceId, device, char, audio_file)
 	console.log("got wav2lip responce")
 	if (extension_settings.wav2lip.mode == 'live') 
 	{
