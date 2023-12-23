@@ -20,6 +20,7 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 ## News
 - 2023.12.23 - XTTSv2 is now supported, it has amazing TTS quality
+- 2023.12.23 - Settings are now in GUI
 - 2023.11.22 - CPU inference is also very fast with caching! (1 second for a short answer, 15 seconds for 11 second long input audio)
 - 2023.11.21 - Caching for face detection. Generation speed for cached vids is now almost 2x faster (2 seconds for a short answer, 10 seconds for 11 second long input audio)
 
@@ -138,9 +139,13 @@ And you are good to go with Silero TTS with English!
 1. Official guide how to install and run XTTSv2 in Silly Tavern with conda: https://docs.sillytavern.app/extras/extensions/xtts/
 2. Note: it can also be installed without conda, and without downgrading python and pytorch, simply install the full version of Visual C++ Build Tools. I'm running everything in Python 3.11.5, pytorch 2.1.2+cu121
 3. To run xtts server you should use this command if you have nvidia card (2 seconds for an average voice message): 
-`python -m xtts_api_server -d=cuda --deepspeed --lowvram --output c:\\SillyTavern-Extras\\`
+```
+python -m xtts_api_server -d=cuda --deepspeed --lowvram --output c:\\SillyTavern-Extras\\
+```
 4. To run on CPU (20 seconds for an short voice message) please use command: 
-`python -m xtts_api_server -d=cpu --output c:\\SillyTavern-Extras\\`
+```
+python -m xtts_api_server -d=cpu --output c:\\SillyTavern-Extras\\
+```
 5. Replace `c:\\SillyTavern-Extras\\` with full path to your SillyTavern-Extras folder, it is needed to pass xtts audio file to Wav2lip.
 6. Full command can be put into a .bat file, so you won't need to type it every time.
 
@@ -164,11 +169,9 @@ If you need Russian or other language please follow [optional steps](https://git
 
 
 ## TODO
-0. import extension settings api url for live stream
 1. User setting to limit input audio length to prevent OOM (optional input)
 2. Resize input vids/pics automatically (optional checkbox)
 3. Disable sending a message to LLM while video is generating (optional checkbox in settings)
-4. Character folder selection in UI (select)
 
 ## Discussion
 If you have bugs or proposals please open a bug report or a pull request
