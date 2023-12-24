@@ -34,12 +34,12 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 
 ## Notes:
-- original wav2lip is built using pytorch. Works nicely on CPUs and nvidia GPUs. AMD GPUs are not tested. You can try (ROCm for linux?), they might work. Please report if they do.
-- If you don't have much VRAM please use CPU (turned on as default). Min VRAM: 6 GB for 300x400 input video and short audio. Static input images may require less VRAM (how much?). Hi-res input videos/images and longer audios require more VRAM. Please report if you are able to run it with less VRAM
+- Works nicely on CPUs and nvidia GPUs. AMD GPUs are not tested. You can try (ROCm for linux?), they might work. Please report if they do.
+- If you don't have much VRAM please use CPU (turned on by default). Min VRAM: 6 GB for 300x400 input video and short audio. Static input images may require less VRAM (how much?). Hi-res input videos/images and longer audios require more VRAM. Please report if you are able to run it with less VRAM
 - If your LLM model is also in VRAM it can cause to OOM error or result in slower replies if you have shared VRAM. 
 - I tested wav2lip running on GPU with 3060 12GB and was able to have ruGPT3.5-13B-gptq fully loaded into VRAM using autoGPTQ. But sometimes with longer replies (4+ sentences) it went into using shared VRAM and caused drastic drop in video gen speed.
 - Default silero ui in ST doesn't support other languages, just English and doesn't support prosody (voice speed and pitch). Now it can be fixed with my patch.
-- By default CPU is used for inference. You can manually turn on cuda inference here: `\SillyTavern-Extras\modules\wav2lip\wav2lip_module.py`, line 214. Change 'cpu' to 'cuda': `device = 'cuda' # cpu, cuda`
+- By default CPU is used for inference. You can change it in extension settings.
 - Video generation takes some time (about 5-10s). If you use GPU and your LLM is also in VRAM don't ask it anything during video generation or you can get OOM error.
 
 
