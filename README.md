@@ -19,7 +19,7 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 
 ## News
-- 2023.12.24 - faster-whisper STT (speech recognition) is now support (CPU and GPU are both fast)
+- 2023.12.24 - faster-whisper STT (speech recognition) is now supported (CPU and GPU are both fast)
 - 2023.12.23 - XTTSv2 is now supported, it has amazing TTS quality
 - 2023.12.23 - Settings are now in GUI
 - 2023.11.22 - CPU inference is also very fast with caching! (1 second for a short answer, 15 seconds for 11 second long input audio)
