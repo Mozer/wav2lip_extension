@@ -21,7 +21,7 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 ## News
 - 2023.12.24 - faster-whisper STT (speech recognition) is now supported (CPU and GPU are both fast)
 - 2023.12.23 - XTTSv2 is now supported, it has amazing TTS quality
-- 2023.12.23 - Settings are now in GUI
+- 2023.12.23 - Settings are now in GUI, added experimental live mode to mimic live video streams
 - 2023.11.22 - CPU inference is also very fast with caching! (1 second for a short answer, 15 seconds for 11 second long input audio)
 - 2023.11.21 - Caching for face detection. Generation speed for cached vids is now almost 2x faster (2 seconds for a short answer, 10 seconds for 11 second long input audio)
 
@@ -37,12 +37,10 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 - original wav2lip is built using pytorch. Works nicely on CPUs and nvidia GPUs. AMD GPUs are not tested. You can try (ROCm for linux?), they might work. Please report if they do.
 - If you don't have much VRAM please use CPU (turned on as default). Min VRAM: 6 GB for 300x400 input video and short audio. Static input images may require less VRAM (how much?). Hi-res input videos/images and longer audios require more VRAM. Please report if you are able to run it with less VRAM
 - If your LLM model is also in VRAM it can cause to OOM error or result in slower replies if you have shared VRAM. 
-- I tested it running on GPU with 3060 12GB and was able to have ruGPT3.5-13B-gptq fully loaded into VRAM using autoGPTQ. But sometimes with longer replies (4+ sentences) it went into using shared VRAM and caused drastic drop in video gen speed.
-- Default silero ui in ST doesn't support other languages, just English
-- Default silero api server doesn't support prosody (voice speed and pitch)
+- I tested wav2lip running on GPU with 3060 12GB and was able to have ruGPT3.5-13B-gptq fully loaded into VRAM using autoGPTQ. But sometimes with longer replies (4+ sentences) it went into using shared VRAM and caused drastic drop in video gen speed.
+- Default silero ui in ST doesn't support other languages, just English and doesn't support prosody (voice speed and pitch). Now it can be fixed with my patch.
 - By default CPU is used for inference. You can manually turn on cuda inference here: `\SillyTavern-Extras\modules\wav2lip\wav2lip_module.py`, line 214. Change 'cpu' to 'cuda': `device = 'cuda' # cpu, cuda`
 - Video generation takes some time (about 5-10s). If you use GPU and your LLM is also in VRAM don't ask it anything during video generation or you can get OOM error.
-- If you make changes in .py files please restart silero extras server to get changes working 
 
 
 ## Performance
@@ -92,8 +90,8 @@ pip install -r requirements.txt
 Wait while all the dependencies  are installed. If there are errors - fix them manully or open an issue.
 
 3. Double click `\SillyTavern\public\scripts\extensions\third-party\wav2lip_extension\patch_silly_tavern.py` to patch some original Silly Tavern files. Backups are saved as .bkp files. If you want to restore them run restore_silly_tavern.py
-4. Double click `\SillyTavern-Extras\modules\wav2lip\patch_silly_tavern_extras.py` to patch some original Silly Tavern Extras files. Backups are saved as .bkp files. If you want to restore them run restore_silly_tavern_extras.py
-5. You are good to go with Silero TTS, it is fast. But i recommend using Cocqui XTTSv2 multilingual it is just a bit slower, but way more realistic.
+4. Double click `\SillyTavern-Extras\modules\wav2lip\patch_silly_tavern_extras.py` to patch some original Silly Tavern Extras files. If you want to restore them run restore_silly_tavern_extras.py
+5. Restart Silly tavern Extras if it was running. And you are good to go with Silero TTS, it is fast. But i recommend using Cocqui XTTSv2 multilingual it is just a bit slower, but way more realistic.
 
 
 ## Optional: Cocqui XTTSv2 multilingual
