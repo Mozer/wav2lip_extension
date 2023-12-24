@@ -19,6 +19,7 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 
 ## News
+- 2023.12.24 - faster-whisper STT (speech recognition) is now support (CPU and GPU are both fast)
 - 2023.12.23 - XTTSv2 is now supported, it has amazing TTS quality
 - 2023.12.23 - Settings are now in GUI
 - 2023.11.22 - CPU inference is also very fast with caching! (1 second for a short answer, 15 seconds for 11 second long input audio)
@@ -90,67 +91,9 @@ pip install -r requirements.txt
 ```
 Wait while all the dependencies  are installed. If there are errors - fix them manully or open an issue.
 
-
-
-## Manually edit 2 files (other repos) to make it work:
-
-3. in \SillyTavern-MainBranch\public\scripts\extesions\tts\index.js
-after line 13 add line:
-```
-import { wav2lipIsGeneratingNow, modify_wav2lipIsGeneratingNow, wav2lipMain} from "../third-party/wav2lip_extension/index.js"
-```
-line 451, in `function processAudioJobQueue()` modify from: `playAudioData(currentAudioJob)`
-modify to:
-```
-if (wav2lipIsGeneratingNow !== true) playAudioData(currentAudioJob);
-```
-
-line 458, in function `completeTtsJob()` after this line: `currentTtsJob = null`
-
-add line:
-```
-if (extension_settings.wav2lip !== undefined && extension_settings.wav2lip.enabled && wav2lipIsGeneratingNow) wav2lipMain("text", 0, extension_settings.wav2lip.char_folder, extension_settings.wav2lip.device);
-```
-
-4. in `\SillyTavern-Extras\server.py` AFTER line 320 which has: `app.config["MAX_CONTENT_LENGTH"] = 500 * 1024 * 1024`
-
-add lines:
-```
-if "wav2lip" in modules:
-    sys.path.append("modules/wav2lip/")
-    from server_wav2lip import *
-        
-    @app.route("/api/wav2lip/generate", methods=["GET","POST"]) 
-    @app.route("/api/wav2lip/generate/<char_folder>", methods=["GET","POST"]) 
-    @app.route("/api/wav2lip/generate/<char_folder>/<device>", methods=["GET","POST"]) 
-    @app.route("/api/wav2lip/generate/<char_folder>/<device>/<audio>", methods=["GET","POST"]) 
-    @cross_origin(headers=['Content-Type'])
-    def wav2lip_generate(char_folder="default",device="cpu",audio="test"):
-        return wav2lip_server_generate(char_folder, device, audio)
-    
-    @app.route("/api/wav2lip/play/<char_folder>/<fname>", methods=["GET","POST"]) 
-    @cross_origin(headers=['Content-Type'])
-    def wav2lip_play(fname: str, char_folder: str):
-        return wav2lip_server_play(fname, char_folder)
-        
-    @app.route("/api/wav2lip/silero_set_lang/<fname>", methods=["GET","POST"]) 
-    @cross_origin(headers=['Content-Type'])
-    def wav2lip_silero_set_lang(fname: str):
-        return wav2lip_server_silero_set_lang(tts_service, fname)
-    
-    @app.route("/api/wav2lip/get_chars", methods=["GET","POST"]) 
-    @cross_origin(headers=['Content-Type'])
-    def wav2lip_get_chars():
-        return wav2lip_server_get_chars()         
-    
-    # override old generate
-    @app.route("/api/tts/generate", methods=["POST"])
-    def wav2lip_tts_generate():
-        voice = request.get_json()
-        return wav2lip_server_tts_generate(tts_service, voice)
-```
-
-And you are good to go with Silero TTS with English! 
+3. Double click `\SillyTavern\public\scripts\extensions\third-party\wav2lip_extension\patch_silly_tavern.py` to patch some original Silly Tavern files. Backups are saved as .bkp files. If you want to restore them run restore_silly_tavern.py
+4. Double click `\SillyTavern-Extras\modules\wav2lip\patch_silly_tavern_extras.py` to patch some original Silly Tavern Extras files. Backups are saved as .bkp files. If you want to restore them run restore_silly_tavern_extras.py
+5. You are good to go with Silero TTS, it is fast. But i recommend using Cocqui XTTSv2 multilingual it is just a bit slower, but way more realistic.
 
 
 ## Optional: Cocqui XTTSv2 multilingual
@@ -169,16 +112,36 @@ python -m xtts_api_server -d=cpu --output c:\\SillyTavern-Extras\\
 6. Full command can be put into a .bat file, so you won't need to type it every time.
 
 
-## Optional: Silero TTS with other languages and voice pitch
+## Optional: faster-whisper STT (speech recognition)
 
-If you need Russian or other language please follow [optional steps](https://github.com/Mozer/wav2lip_extension/blob/main/README_optional.md) and modify 2 files.
+1. Install official extension 'Extension-Speech-Recognition': Silly Tavern -> Exxtensions -> Download Extensions and Assets -> connect button -> yes -> Speech Recognition -> donwload button
+	
+	It has built in streaming support for openai/whisper, but it is not working nicely, skips a lot words, not working with Rusian language and runs on a GPU.
+2. faster-whisper is much faster and can be run on a CPU. I am using GUI for faster-whisper from https://github.com/reriiasu/speech-to-text
+3. open a cmd in directory, where you want it to be installed and run
+```
+git clone https://github.com/reriiasu/speech-to-text
+pip install -r requirements.txt
+```
+4. for convenience create a .bat file to run it. Place inside:
+```
+python -m speech_to_text
+```
+5. Then run it. It will open a GUI page. App settings - check "Use Websocket server", uncheck "Create Audio File".
+6. Model settings - select Model size "small", set Device to "cpu", set Number of workers from 4 to 8 (how many cpu cores you want to use, i prefer 8)
+7. Transcribe settings - select language, e.g. "russian", task - "transcribe"
+8. Now you can run stt server, click Start Transcription. If you want to work it faster, try with a cuda gpu. But CPU is also fast (it takes ~2 seconds to transcribe)
+9. Double click `\SillyTavern\public\scripts\extensions\third-party\wav2lip_extension\patch_silly_tavern.py` to patch 2 files in \Extension-Speech-Recognition\
+10. Silly Tavern GUI ->  Extensions -> Speech Recognition -> Select Speech-to-text Provider as "streaming", set your language, set Message mode (I prefer Auto send). You are good to go.
+
+
 
 
 ## Running
 
-1. Enable wav2lip and silero-tts modules for silly extras and start it using command line or conda. (silero-tts module is optional, you can try other tts engines in Silly)
+1. Enable wav2lip and silero-tts modules for silly extras and start it using command line or conda. (silero-tts module is optional, you can try xttsv2 in Silly, streaming-stt is also optional)
 
-`python server.py --enable-modules silero-tts,wav2lip`
+`python server.py --enable-modules silero-tts,wav2lip,streaming-stt`
 
 2. Enable wav2lip in web interface: Extensions -> Wav2lip -> Enabled.
 3. Make sure Silly Tavern is "Connected to API" of extras server. Make sure TTS is enabled in extensions and settings. 

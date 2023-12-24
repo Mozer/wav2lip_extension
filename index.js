@@ -378,9 +378,12 @@ async function onCharacterMessageRendered() {
 	if (extension_settings.wav2lip.enabled && extension_settings.wav2lip.auto_generate && extension_settings.wav2lip.hide_reply_for_a_while)
 	{
 		let mes_obj = $(".last_mes").find(".mes_text");
-		let mes_length = mes_obj.text().length;
-		mes_obj.attr("data-html", mes_obj.html()).html("<span class='wav2lip_recording_label' title='"+mes_obj.text()+"'>[Recording video... "+mes_length+" symbols]</span>")
-		if (extension_settings.wav2lip.mode == 'live') live_video_create_html()
+		if (!mes_obj.hasAttribute(data-html))
+		{
+			let mes_length = mes_obj.text().length;
+			mes_obj.attr("data-html", mes_obj.html()).html("<span class='wav2lip_recording_label' title='"+mes_obj.text()+"'>[Recording video... "+mes_length+" symbols]</span>")
+			if (extension_settings.wav2lip.mode == 'live') live_video_create_html()
+		}
 	}		
 }
 
