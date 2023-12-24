@@ -96,13 +96,13 @@ Wait while all the dependencies  are installed. If there are errors - fix them m
 
 ## Optional: Cocqui XTTSv2 multilingual
 
-1. Official guide how to install and run XTTSv2 in Silly Tavern with conda: https://docs.sillytavern.app/extras/extensions/xtts/
+1. Official guide how to install and run XTTSv2 in Silly Tavern staging with conda: https://docs.sillytavern.app/extras/extensions/xtts/
 2. Note: it can also be installed without conda, and without downgrading python and pytorch, simply install the full version of Visual C++ Build Tools. I'm running everything in Python 3.11.5, pytorch 2.1.2+cu121
 3. To run xtts server you should use this command if you have nvidia card (2 seconds for an average voice message): 
 ```
 python -m xtts_api_server -d=cuda --deepspeed --lowvram --output c:\\SillyTavern-Extras\\
 ```
-4. To run on CPU (20 seconds for an short voice message) please use command: 
+4. To run on CPU (20 seconds for a short voice message) please use command: 
 ```
 python -m xtts_api_server -d=cpu --output c:\\SillyTavern-Extras\\
 ```
