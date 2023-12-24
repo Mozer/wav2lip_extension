@@ -146,7 +146,7 @@ python -m speech_to_text
 4. Make sure voice is selected for current character or default character. Turn on TTS auto generation if you also want video auto generation.
 5. Make sure language of the characted in dialogue is the same as language in "silero_api_server\tts.py" and "SillyTavern-Extras\server.py". e.g. Russian TTS won't play English words and vice versa.
 6. Put your short (~10-30s) and low-res (~300x400) input vids/pics into `\SillyTavern-Extras\modules\wav2lip\input\default\` They will be played in random order. Face should be present in all frames or it will cause error (e.g. covered with hand). 
-
+7. DONE. Now in chat you can click video camera icon near any message to generate a video message, or turn on automatic video generation in Extenstion settings.
 
 ## TODO
 1. User setting to limit input audio length to prevent OOM (optional input)
