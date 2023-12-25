@@ -8,7 +8,7 @@ https://github.com/Mozer/wav2lip_extension/assets/1599013/1dcab8d0-a7a2-45da-8bb
 
 New video of [real time usage in Silly Tavern with STT and XTTSv2 in Eglish](https://www.youtube.com/watch?v=meUj1v55tO0).
 
-И еще одно видео: тут старая версия [без голосового ввода, с Silero TTS, на русском языке, есть немного мата](https://t.me/tensorbanana/745).
+И еще одно видео: старая версия [без голосового ввода, с Silero TTS, на русском языке, есть немного мата](https://t.me/tensorbanana/745).
 
 
 Works with input videos and images. Please notice that for static images only the lips will be animated. Real videos as input are more realistic. Anime pics/vids are not so good looking and sometimes face is not detected.
