@@ -32,7 +32,7 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 - CPU with 10+ Gb RAM or nvidia GPU with 8+ GB VRAM. If you have Radeon GPU please use CPU, it is also fast and is turned on by default.
 - latest Silly Tavern staging branch (https://github.com/SillyTavern/SillyTavern/tree/staging)
 - latest Silly Tavern Extras (https://github.com/SillyTavern/SillyTavern-Extras)
-- ffmpeg is installed and is put into your PATH environment (https://phoenixnap.com/kb/ffmpeg-windows)
+- ffmpeg should be installed and put into your PATH environment (https://phoenixnap.com/kb/ffmpeg-windows)
 
 
 ## Notes:
@@ -134,7 +134,7 @@ python -m speech_to_text
 8. Now you can run stt server with wss support, click Start Transcription. If you want to work it faster, try with a cuda gpu. But CPU is also fast (it takes ~2 seconds to transcribe)
 9. Double click `\SillyTavern\public\scripts\extensions\third-party\wav2lip_extension\patch_silly_tavern.py` to patch 2 files in \Extension-Speech-Recognition\
 10. Silly Tavern GUI ->  Extensions -> Speech Recognition -> Select Speech-to-text Provider as "streaming", set your language, set desired "Message mode" (I prefer "Auto send"). You are good to go.
-
+11. If SillyTavern lost connection with STT server, you can switch Provider to "none" and back to "streaming", it will reconect the wss connection (or just hit F5).
 
 
 
