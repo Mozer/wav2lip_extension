@@ -114,23 +114,25 @@ python -m xtts_api_server -d=cpu --output c:\\SillyTavern-Extras\\
 
 1. Install official extension 'Extension-Speech-Recognition': Silly Tavern -> Exxtensions -> Download Extensions and Assets -> connect button -> yes -> Speech Recognition -> donwload button
 	
-	It has built in streaming support for openai/whisper, but it is not working nicely, skips a lot words, not working with Rusian language and runs on a GPU.
-2. faster-whisper is much faster and can be run on a CPU. I am using GUI for faster-whisper from https://github.com/reriiasu/speech-to-text
-3. open a cmd in directory, where you want it to be installed and run
+	It has built in streaming support for openai/whisper, but it is not working nicely, skips a lot of words, not working with Rusian language and runs on a GPU.
+
+	faster-whisper is much faster and can be run on a CPU. I am using GUI for faster-whisper from https://github.com/reriiasu/speech-to-text
+2. open a cmd in directory, where you want it to be installed and run
 ```
 git clone https://github.com/reriiasu/speech-to-text
 pip install -r requirements.txt
 ```
-4. for convenience create a .bat file to run it. Place inside:
+3. By default it launches a web gui on port 8000, the same used by SillyTavern, change it in `\speech-to-text\speech_to_text\__main__.py` from `eel.start("index.html", size=(1024, 1024), close_callback=on_close)` to `eel.start("index.html", size=(1024, 1024), close_callback=on_close, port=8080)`
+4. Now run it with next command. For convenience create a .bat file with contents:
 ```
 python -m speech_to_text
 ```
-5. Then run it. It will open a GUI page. App settings - check "Use Websocket server", uncheck "Create Audio File".
+5. It will open a web GUI. Change following settings: App settings - check "Use Websocket server", uncheck "Create Audio File".
 6. Model settings - select Model size "small", set Device to "cpu", set Number of workers from 4 to 8 (how many cpu cores you want to use, i prefer 8)
 7. Transcribe settings - select language, e.g. "russian", task - "transcribe"
-8. Now you can run stt server, click Start Transcription. If you want to work it faster, try with a cuda gpu. But CPU is also fast (it takes ~2 seconds to transcribe)
+8. Now you can run stt server with wss support, click Start Transcription. If you want to work it faster, try with a cuda gpu. But CPU is also fast (it takes ~2 seconds to transcribe)
 9. Double click `\SillyTavern\public\scripts\extensions\third-party\wav2lip_extension\patch_silly_tavern.py` to patch 2 files in \Extension-Speech-Recognition\
-10. Silly Tavern GUI ->  Extensions -> Speech Recognition -> Select Speech-to-text Provider as "streaming", set your language, set Message mode (I prefer Auto send). You are good to go.
+10. Silly Tavern GUI ->  Extensions -> Speech Recognition -> Select Speech-to-text Provider as "streaming", set your language, set desired "Message mode" (I prefer "Auto send"). You are good to go.
 
 
 

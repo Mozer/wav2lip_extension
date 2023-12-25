@@ -104,7 +104,7 @@ def patch_files(file_paths_with_replacements):
             # Check if file has already been patched
             backup_file_path = file_path + '.bkp'
             if os.path.exists(backup_file_path):
-                print(file_path+" was already patched before (.bkp file exists), skipping.")
+                print(file_path+" was already patched before (.bkp file exists. If you want to patch it again - first restore the original file), skipping.")
                 continue
             
             # Create backup copy of original file

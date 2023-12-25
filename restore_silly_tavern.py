@@ -18,5 +18,5 @@ if __name__ == "__main__":
     
     
     restore_files(patch_silly_tavern.return_patch_files())
-    print ("\n\nSuccess. closing this window in 30 seconds.")
-    time.sleep(10)
+    print ("\n\nSuccess. closing this window in 60 seconds.")
+    time.sleep(60)
