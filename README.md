@@ -96,7 +96,7 @@ Wait while all the dependencies  are installed. If there are errors - fix them m
 
 ## Optional: Cocqui XTTSv2 multilingual
 
-1. Official guide how to install and run XTTSv2 in Silly Tavern staging with conda: https://docs.sillytavern.app/extras/extensions/xtts/
+1. Official guide how to install and run XTTSv2 in Silly Tavern staging with conda, use it: https://docs.sillytavern.app/extras/extensions/xtts/
 2. Note: it can also be installed without conda, and without downgrading python and pytorch, simply install the full version of Visual C++ Build Tools. I'm running everything in Python 3.11.5, pytorch 2.1.2+cu121
 3. To run xtts server you should use this command if you have nvidia card (2 seconds for an average voice message): 
 ```
@@ -106,23 +106,22 @@ python -m xtts_api_server -d=cuda --deepspeed --lowvram --output c:\\SillyTavern
 ```
 python -m xtts_api_server -d=cpu --output c:\\SillyTavern-Extras\\
 ```
-5. Replace `c:\\SillyTavern-Extras\\` with full path to your SillyTavern-Extras folder, it is needed to pass xtts audio file to Wav2lip.
-6. Full command can be put into a .bat file, so you won't need to type it every time.
+5. Replace `c:\\SillyTavern-Extras\\` with full path to your SillyTavern-Extras folder, it is needed to pass xtts audio file to Wav2lip. Full command can be put into a .bat file, so you won't need to type it every time.
 
 
 ## Optional: faster-whisper STT (speech recognition)
 
-1. Install official extension 'Extension-Speech-Recognition': Silly Tavern -> Exxtensions -> Download Extensions and Assets -> connect button -> yes -> Speech Recognition -> donwload button
+1. Install official extension 'Extension-Speech-Recognition': Silly Tavern -> Extensions -> Download Extensions and Assets -> connect button -> yes -> Speech Recognition -> download button
 	
 	It has built in streaming support for openai/whisper, but it is not working nicely, skips a lot of words, not working with Rusian language and runs on a GPU.
 
-	faster-whisper is much faster and can be run on a CPU. I am using GUI for faster-whisper from https://github.com/reriiasu/speech-to-text
+	SYSTRAN/faster-whisper is much faster and can be run on a CPU. I am using GUI for faster-whisper from https://github.com/reriiasu/speech-to-text
 2. open a cmd in directory, where you want it to be installed and run
 ```
 git clone https://github.com/reriiasu/speech-to-text
 pip install -r requirements.txt
 ```
-3. By default it launches a web gui on port 8000, the same used by SillyTavern, change it in `\speech-to-text\speech_to_text\__main__.py` from `eel.start("index.html", size=(1024, 1024), close_callback=on_close)` to `eel.start("index.html", size=(1024, 1024), close_callback=on_close, port=8080)`
+3. By default it launches a web gui on port 8000, the same used by SillyTavern, need to change it in `\speech-to-text\speech_to_text\__main__.py` from `eel.start("index.html", size=(1024, 1024), close_callback=on_close)` to `eel.start("index.html", size=(1024, 1024), close_callback=on_close, port=8080)`
 4. Now run it with next command. For convenience create a .bat file with contents:
 ```
 python -m speech_to_text

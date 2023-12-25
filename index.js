@@ -365,6 +365,7 @@ function live_video_play_response()
 	$(".wav2lip_live_video").removeAttr("loop");
 	$(".wav2lip_live_video").attr("src", extension_settings.apiUrl+'/api/wav2lip/play/'+extension_settings.char_folder+'/wav2lip?r='+Date.now());
 	$(".wav2lip_live_video").attr("onended", "$(this).attr(\'onended\', \'\'); $(this).attr(\'loop\', \'\'); $(this).attr(\'src\', $(this).attr(\'data-api_url\')+\'/api/wav2lip/play/\'+$(this).attr(\'data-char_folder\')+\'/silence\')");
+	$(document).find(".mes_wav2lip").removeClass("fa-spinner").addClass("fa-video")
 }
 
 async function onMessageReceived() {
@@ -378,12 +379,12 @@ async function onCharacterMessageRendered() {
 	if (extension_settings.wav2lip.enabled && extension_settings.wav2lip.auto_generate && extension_settings.wav2lip.hide_reply_for_a_while)
 	{
 		let mes_obj = $(".last_mes").find(".mes_text");
-		if (!mes_obj.hasAttribute(data-html))
+		if (mes_obj.attr('data-html') === undefined)
 		{
 			let mes_length = mes_obj.text().length;
 			mes_obj.attr("data-html", mes_obj.html()).html("<span class='wav2lip_recording_label' title='"+mes_obj.text()+"'>[Recording video... "+mes_length+" symbols]</span>")
-			if (extension_settings.wav2lip.mode == 'live') live_video_create_html()
 		}
+		if (extension_settings.wav2lip.mode == 'live') live_video_create_html()
 	}		
 }
 
@@ -406,6 +407,7 @@ async function wav2lipMain(text, voiceId, char, device) {
 	if (extension_settings.wav2lip.mode == 'live') 
 	{
 		console.log("adding live video")
+		live_video_create_html()
 		live_video_play_response()
 	}
 	else add_video_html_to_message()
