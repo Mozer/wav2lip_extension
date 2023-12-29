@@ -1,4 +1,7 @@
-# Hands free voice call to yourt LLM in SillyTavern
+# Hands free voice call to your LLM in SillyTavern
+
+vid:
+https://youtu.be/Opbx7Y2MuCU
 
 ## faster-whisper STT (speech recognition)
 
