@@ -33,7 +33,7 @@ I guess there are easier ways to route speech and audio from SillyTavern to phon
 - VB-Audio Additional Virtual Cables. It's a paid app, but there are always options, https://vb-audio.com/Cable/
 - OBS studio
 - official XTTSv2 extension for silly tavern
-- modified streaming speech recognition extension for silly tavern with faster-whisper. Guide: https://github.com/Mozer/wav2lip_extension?tab=readme-ov-file#optional-faster-whisper-stt-speech-recognition 
+- modified streaming speech recognition extension for silly tavern with faster-whisper.
 
 ![photo_2023-12-29_21-34-13](https://github.com/Mozer/wav2lip_extension/assets/1599013/d925f1d2-817a-4c0d-a669-8efe23271f69)
 
