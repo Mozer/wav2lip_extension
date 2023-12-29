@@ -128,13 +128,14 @@ pip install -r requirements.txt
 ```
 python -m speech_to_text
 ```
-5. It will open a web GUI. Change following settings: App settings - check "Use Websocket server", uncheck "Create Audio File".
-6. Model settings - select Model size "small", set Device to "cpu", set Number of workers from 4 to 8 (how many cpu cores you want to use, i prefer 8)
+5. It will open a web GUI. Change following settings: App settings - check "Use Websocket server", uncheck "Create Audio File", set "Silence limit" to 20
+6. Model settings - select Model size "small", set Device to "cpu", set "Compute type" to float32, set Number of workers from 4 to 8 (how many cpu cores you want to use, i prefer 8)
 7. Transcribe settings - select language, e.g. "russian", task - "transcribe"
 8. Now you can run stt server with wss support, click Start Transcription. If you want to work it faster, try with a cuda gpu. But CPU is also fast (it takes ~2 seconds to transcribe)
-9. Double click `\SillyTavern\public\scripts\extensions\third-party\wav2lip_extension\patch_silly_tavern.py` to patch 2 files in \Extension-Speech-Recognition\
-10. Silly Tavern GUI ->  Extensions -> Speech Recognition -> Select Speech-to-text Provider as "streaming", set your language, set desired "Message mode" (I prefer "Auto send"). You are good to go.
-11. If SillyTavern lost connection with STT server, you can switch Provider to "none" and back to "streaming", it will reconect the wss connection (or just hit F5).
+9. To speed up VAD a little: in `\speech-to-text\speech_to_text\utils\audio_utils.py` change `CHUNK = 512` to `CHUNK = 256`
+10. Double click `\SillyTavern\public\scripts\extensions\third-party\wav2lip_extension\patch_silly_tavern.py` to patch 2 files in \Extension-Speech-Recognition\
+11. Silly Tavern GUI ->  Extensions -> Speech Recognition -> Select Speech-to-text Provider as "streaming", set your language, set desired "Message mode" (I prefer "Auto send"). You are good to go.
+12. If SillyTavern lost connection with STT server, you can switch Provider to "none" and back to "streaming", it will reconect the wss connection (or just hit F5).
 
 
 
