@@ -35,4 +35,8 @@ I guess there are easier ways to route speech and audio from SillyTavern to phon
 - official XTTSv2 extension for silly tavern
 - modified streaming speech recognition extension for silly tavern with faster-whisper. Guide: https://github.com/Mozer/wav2lip_extension?tab=readme-ov-file#optional-faster-whisper-stt-speech-recognition 
 
+![photo_2023-12-29_21-34-13](https://github.com/Mozer/wav2lip_extension/assets/1599013/d925f1d2-817a-4c0d-a669-8efe23271f69)
+
+![photo_2023-12-29_21-34-13 (2)](https://github.com/Mozer/wav2lip_extension/assets/1599013/67f27ab7-aca5-4adb-a9a0-1bdb1abc32d9)
+
 At home it works flawlessly with TWS headphones, but at the street all the ambient noises reduce speech recognition quality. Short questions work fine, but longer things can turn your call into a disaster (bad TWS microphone, poor Bluetooth, bad 4G signal, other people voices, street sounds). Anyway it's winter and having the ability to chat with your LLM outside without use of hands is great.
