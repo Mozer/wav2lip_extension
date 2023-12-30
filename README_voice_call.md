@@ -25,7 +25,7 @@ python -m speech_to_text
 7. Transcribe settings - select language, e.g. "russian", task - "transcribe"
 8. Now you can run stt server with wss support, click Start Transcription. If you want to work it faster, try with a cuda gpu. But CPU is also fast (it takes ~2 seconds to transcribe)
 9. To speed up VAD a little: in `\speech-to-text\speech_to_text\utils\audio_utils.py` change `CHUNK = 512` to `CHUNK = 256`
-10. Put 2 files patch_silly_tavern.py and restore_silly_tavern.py to a given below dir. Double click `\SillyTavern\public\scripts\extensions\third-party\wav2lip_extension\patch_silly_tavern.py` to patch 2 files in \Extension-Speech-Recognition\
+10. Put 2 files patch_streaming_stt.py and restore_streaming.py to: `\SillyTavern\public\scripts\extensions\third-party\Extension-Speech-Recognition` to patch 2 original files. Double click patch_streaming_stt.py
 11. Silly Tavern GUI ->  Extensions -> Speech Recognition -> Select Speech-to-text Provider as "streaming", set your language, set desired "Message mode" (I prefer "Auto send"). You are good to go.
 12. If SillyTavern lost connection with STT server, you can switch Provider to "none" and back to "streaming", it will reconect the wss connection (or just hit F5).
 
