@@ -135,7 +135,7 @@ python -m speech_to_text
 7. Transcribe settings - select language, e.g. "russian", task - "transcribe"
 8. Now you can run stt server with wss support, click Start Transcription. If you want to work it faster, try with a cuda gpu. But CPU is also fast (it takes ~2 seconds to transcribe)
 9. To speed up VAD a little: in `\speech-to-text\speech_to_text\utils\audio_utils.py` change `CHUNK = 512` to `CHUNK = 256`
-10. Double click `\SillyTavern\public\scripts\extensions\third-party\wav2lip_extension\patch_silly_tavern.py` to patch 2 files in \Extension-Speech-Recognition\
+10. Double click `\SillyTavern\public\scripts\extensions\third-party\wav2lip_extension\patch_streaming_stt.py` to patch 2 files (index.js and streaming.js) in \Extension-Speech-Recognition\
 11. Silly Tavern GUI ->  Extensions -> Speech Recognition -> Select Speech-to-text Provider as "streaming", set your language, set desired "Message mode" (I prefer "Auto send"). You are good to go.
 12. If SillyTavern lost connection with STT server, you can switch Provider to "none" and back to "streaming", it will reconect the wss connection (or just hit F5).
 
@@ -155,18 +155,19 @@ python -m speech_to_text
 7. DONE. Now in chat you can click a video camera icon near any message to generate a video responce, or turn on automatic video generation in Extension settings.
 
 
-
-## TODO
-1. User setting to limit input audio length to prevent OOM (optional input)
-2. Resize input vids/pics automatically (optional checkbox)
-3. Disable sending a message to LLM while video is generating (optional checkbox in settings)
-
 ## Settings
 Mode:
 There are two modes for this extension: 'video message' and 'live stream' (you can switch them in extension settings). 
 - video message - character will send you a video message in chat
 - live stream - mimicks a live video stream like twitch. First a regular video message is played. And then a silence video will be played right after the character finished talking. You should make such video manually, just find/create a video where your chracter is not speaking anything, longer videos are better looking. Put silence.mp4 to `\SillyTavern-Extras\modules\wav2lip\input\default\`.
 For a quick test you can just copy `emma_home_400.mp4` and rename it to `silence.mp4` this will get you the basic idea.
+
+
+## TODO
+1. User setting to limit input audio length to prevent OOM (optional input)
+2. Resize input vids/pics automatically (optional checkbox)
+3. Disable sending a message to LLM while video is generating (optional checkbox in settings)
+
 
 ## Discussion
 If you have bugs or proposals please open a bug report or a pull request
