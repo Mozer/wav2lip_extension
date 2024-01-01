@@ -163,10 +163,10 @@ python -m speech_to_text
 
 ## Settings
 Mode:
-There are two modes for this extension: 'video message', and 'live stream' (you can switch them in extension settings). 
+There are two modes for this extension: 'video message' and 'live stream' (you can switch them in extension settings). 
 - video message - character will send you a video message in chat
-- live stream - mimicks a live video stream like twitch. First a regular video message is played. And then a silence video will be played right after the character finished talking. You should make such video manually, longer videos are better looking. Put a silence.mp4 to \SillyTavern-Extras\modules\wav2lip\input\default\
-For a quick test you can just copy \SillyTavern-Extras\modules\wav2lip\input\default\emma_home_400.mp4 and rename it to silence.mp4 this will get you the idea.
+- live stream - mimicks a live video stream like twitch. First a regular video message is played. And then a silence video will be played right after the character finished talking. You should make such video manually, just find/create a video where your chracter is not speaking anything, longer videos are better looking. Put a silence.mp4 to `\SillyTavern-Extras\modules\wav2lip\input\default\`
+For a quick test you can just copy `emma_home_400.mp4` and rename it to `silence.mp4` this will get you the basic idea.
 
 ## Discussion
 If you have bugs or proposals please open a bug report or a pull request
