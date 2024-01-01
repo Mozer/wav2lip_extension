@@ -10,7 +10,7 @@ New video of [real time usage in Silly Tavern with STT and XTTSv2 in English](ht
 
 И еще одно видео: [на русском языке, есть немного мата](https://t.me/tensorbanana/832).
 
-[Video guide how to set up everything in English by MustacheAI] (https://www.youtube.com/watch?v=JyfYl16FhKM)
+Video guide [how to set up everything](https://www.youtube.com/watch?v=JyfYl16FhKM) in English by MustacheAI
 
 
 Works with input videos and images. Please notice that for static images only the lips will be animated. Real videos as input are more realistic. Anime pics/vids are not so good looking and sometimes face is not detected.
