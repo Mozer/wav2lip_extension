@@ -10,7 +10,7 @@ New video of [real time usage in Silly Tavern with STT and XTTSv2 in English](ht
 
 И еще одно видео: [на русском языке, есть немного мата](https://t.me/tensorbanana/832).
 
-Video guide [how to set up everything](https://www.youtube.com/watch?v=JyfYl16FhKM) in English by MustacheAI
+Video guide [how to set up everything](https://www.youtube.com/watch?v=JyfYl16FhKM) in English by MustacheAI.
 
 
 Works with input videos and images. Please notice that for static images only the lips will be animated. Real videos as input are more realistic. Anime pics/vids are not so good looking and sometimes face is not detected.
@@ -154,10 +154,19 @@ python -m speech_to_text
 6. Put your short (~10-30s) and low-res (~300x400) input vids/pics into `\SillyTavern-Extras\modules\wav2lip\input\default\` They will be played in random order. Face should be present in all frames or it will cause error (e.g. covered with hand). 
 7. DONE. Now in chat you can click a video camera icon near any message to generate a video responce, or turn on automatic video generation in Extension settings.
 
+
+
 ## TODO
 1. User setting to limit input audio length to prevent OOM (optional input)
 2. Resize input vids/pics automatically (optional checkbox)
 3. Disable sending a message to LLM while video is generating (optional checkbox in settings)
+
+## Settings
+Mode:
+There are two modes for this extension: 'video message', and 'live stream' (you can switch them in extension settings). 
+- video message - character will send you a video message in chat
+- live stream - mimicks a live video stream like twitch. First a regular video message is played. And then a silence video will be played right after the character finished talking. You should make such video manually, longer videos are better looking. Put a silence.mp4 to \SillyTavern-Extras\modules\wav2lip\input\default\
+For a quick test you can just copy \SillyTavern-Extras\modules\wav2lip\input\default\emma_home_400.mp4 and rename it to silence.mp4 this will get you the idea.
 
 ## Discussion
 If you have bugs or proposals please open a bug report or a pull request
