@@ -110,6 +110,7 @@ python -m xtts_api_server -d=cuda --deepspeed --lowvram --output c:\\SillyTavern
 ```
 python -m xtts_api_server -d=cpu --output c:\\SillyTavern-Extras\\
 ```
+Note: wav2lip doesn't work with xtts --streaming-mode-improve param as it doesn't save audio to file (but is fast).
 5. Replace `c:\\SillyTavern-Extras\\` with full path to your SillyTavern-Extras folder, it is needed to pass xtts audio file to Wav2lip. Full command can be put into a .bat file, so you won't need to type it every time.
 
 
