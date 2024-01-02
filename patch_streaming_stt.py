@@ -3,7 +3,7 @@ import os, time, shutil, codecs
 
 def return_patch_files():
     file_paths_with_replacements = [
-        ['index.js', 
+        ['../Extension-Speech-Recognition/index.js', 
             {"""let userMessageRaw = userMessageLower.replace(/[^\w\s\']|_/g, '').replace(/\s+/g, ' ');""": '''let userMessageRaw = userMessageLower.replace(/[^\w\s\']|_/g, '').replace(/\s+/g, ' ');
 			userMessageRaw = userMessageLower; // was not working for Russian''',
         '''userMessageFormatted = userMessageFormatted.substring(messageStart);
@@ -13,7 +13,7 @@ def return_patch_files():
             }
         ],
         
-        ['streaming.js', 
+        ['../Extension-Speech-Recognition/streaming.js', 
             {'class StreamingSttProvider {': '''var wss_socket;
 var wss_message = '';
 
