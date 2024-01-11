@@ -23,7 +23,7 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 
 ## News
-- 2024.01.11 - fixed crashing when the face is not found. Update file https://github.com/Mozer/wav2lip/blob/master/wav2lip_module.py
+- 2024.01.11 - fixed crashing when face is not found. Update file in Extras: https://github.com/Mozer/wav2lip/blob/master/wav2lip_module.py
 - 2024.01.01 - bug fixes, paths for linux
 - 2023.12.24 - faster-whisper STT (speech recognition) is now supported (CPU and GPU are both fast)
 - 2023.12.23 - XTTSv2 is now supported, it has amazing TTS quality
