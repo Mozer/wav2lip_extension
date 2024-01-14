@@ -23,6 +23,7 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 
 ## News
+- 2024.01.13 - Memory optimisation: now it requires just ~1 GB of VRAM or RAM to run it. I changed wav2lip_batch_size from 1024 to 16, and face_det_batch_size from 16 to 4. Almost no trade offs in speed. Update file in Extras: server_wav2lip.py
 - 2024.01.13 - fixed VRAM memory leak: CUDA buffers were not emptied after each generation, eating vram and slowing down each generation. Update file in Extras: wav2lip_module.py
 - 2024.01.11 - fixed crashing when face is not found. Update file in Extras: https://github.com/Mozer/wav2lip/blob/master/wav2lip_module.py
 - 2024.01.01 - bug fixes, paths for linux
@@ -34,7 +35,7 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 
 ## Requirements: 
-- CPU with 10+ Gb RAM or nvidia GPU with 8+ GB VRAM. If you have Radeon GPU please use CPU, it is also fast and is turned on by default.
+- CPU with 2+ Gb RAM or nvidia GPU with 2+ GB VRAM. If you have Radeon GPU please use CPU, it is also fast and is turned on by default.
 - latest Silly Tavern staging branch (https://github.com/SillyTavern/SillyTavern/tree/staging)
 - latest Silly Tavern Extras (https://github.com/SillyTavern/SillyTavern-Extras)
 - ffmpeg should be installed and put into your PATH environment (https://phoenixnap.com/kb/ffmpeg-windows)
@@ -42,9 +43,9 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 ## Notes:
 - Works nicely on CPUs and nvidia GPUs. AMD GPUs are not tested. You can try (ROCm for linux?), they might work. Please report if they do.
-- If you don't have much VRAM please use CPU (turned on by default). Min VRAM: 6 GB for 300x400 input video and short audio. Static input images may require less VRAM (how much?). Hi-res input videos/images and longer audios require more VRAM. Please report if you are able to run it with less VRAM
+- If you don't have much VRAM please use CPU (turned on by default). Min VRAM: 1 GB for 300x400 input video and short audio. Static input images may require less VRAM (how much?). Hi-res input videos/images and longer audios require more VRAM. Please report if you are able to run it with less VRAM
 - If your LLM model is also in VRAM it can cause to OOM error or result in slower replies if you have shared VRAM. 
-- I tested wav2lip running on GPU with 3060 12GB and was able to have ruGPT3.5-13B-gptq fully loaded into VRAM using autoGPTQ. But sometimes with longer replies (4+ sentences) it went into using shared VRAM and caused drastic drop in video gen speed.
+- I tested wav2lip running on GPU with 3060 12GB and was able to have ruGPT3.5-13B-gptq fully loaded into VRAM using autoGPTQ.
 - Default silero ui in ST doesn't support other languages, just English and doesn't support prosody (voice speed and pitch). Now it can be fixed with my patch.
 - By default CPU is used for inference. You can change it in extension settings.
 - Video generation takes some time (about 5-10s). If you use GPU and your LLM is also in VRAM don't ask it anything during video generation or you can get OOM error.
@@ -63,11 +64,11 @@ CPU	1	55	not cached
 CPU	1	1	cached
 CPU	11	15	cached
 CPU	120	140	cached
-GPU	1	8	not cached	6
-GPU	1	2	cached		6
-GPU	11	15	cached		8
-GPU	31	32	not cached	11.1
-GPU	44	103	not cached	13.2	used shared vram
+GPU	2	13	not cached	1
+GPU	39	13	not cached	2	
+GPU	1	2	cached		1
+GPU	50	9	cached		1
+
 
 
 	Just face detection 
