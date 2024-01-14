@@ -66,7 +66,7 @@ CPU	11	15	cached
 CPU	120	140	cached
 GPU	2	13	not cached	1
 GPU	39	13	not cached	2	
-GPU	1	2	cached		1
+GPU	2	3	cached		1
 GPU	50	9	cached		1
 
 
