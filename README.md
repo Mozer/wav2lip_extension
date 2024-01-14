@@ -23,7 +23,7 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 
 ## News
-- 2024.01.13 - Memory optimisation: now it requires just ~1 GB of VRAM or RAM to run it. I changed wav2lip_batch_size from 1024 to 16, and face_det_batch_size from 16 to 4. Almost no trade offs in speed. Update file in Extras: server_wav2lip.py
+- 2024.01.14 - Memory optimisation: now it requires just ~1 GB of VRAM or RAM to run it. I changed wav2lip_batch_size from 1024 to 16, and face_det_batch_size from 16 to 4. Almost no trade offs in speed. Update file in Extras: server_wav2lip.py
 - 2024.01.13 - fixed VRAM memory leak: CUDA buffers were not emptied after each generation, eating vram and slowing down each generation. Update file in Extras: wav2lip_module.py
 - 2024.01.11 - fixed crashing when face is not found. Update file in Extras: https://github.com/Mozer/wav2lip/blob/master/wav2lip_module.py
 - 2024.01.01 - bug fixes, paths for linux
