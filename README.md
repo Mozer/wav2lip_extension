@@ -36,7 +36,7 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 ## Requirements: 
 - CPU with 2+ Gb RAM or nvidia GPU with 2+ GB VRAM. If you have Radeon GPU please use CPU, it is also fast and is turned on by default.
-- latest Silly Tavern staging branch (https://github.com/SillyTavern/SillyTavern/tree/staging)
+- latest Silly Tavern main branch 1.11.2 (https://github.com/SillyTavern/SillyTavern). Older versions may not work.
 - latest Silly Tavern Extras (https://github.com/SillyTavern/SillyTavern-Extras)
 - ffmpeg should be installed and put into your PATH environment (https://phoenixnap.com/kb/ffmpeg-windows)
 
@@ -114,7 +114,7 @@ python -m xtts_api_server -d=cuda --deepspeed --lowvram --output c:\\SillyTavern
 ```
 python -m xtts_api_server -d=cpu --output c:\\SillyTavern-Extras\\
 ```
-Note: wav2lip doesn't work with xtts --streaming-mode-improve param as it doesn't save audio to file (but is fast).
+Note: wav2lip doesn't work with xtts --streaming-mode-improve param as it doesn't save audio to file (though it is fast).
 5. Replace `c:\\SillyTavern-Extras\\` with full path to your SillyTavern-Extras folder, it is needed to pass xtts audio file to Wav2lip. Full command can be put into a .bat file, so you won't need to type it every time.
 
 
