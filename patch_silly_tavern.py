@@ -8,10 +8,10 @@ def return_patch_files():
 import { wav2lipIsGeneratingNow, modify_wav2lipIsGeneratingNow, wav2lipMain} from "../third-party/wav2lip_extension/index.js"''',
         
             'playAudioData(currentAudioJob);': 'if (wav2lipIsGeneratingNow !== true) playAudioData(currentAudioJob);',
-        '''console.info(`Current TTS job for ${currentTtsJob?.name} completed.`);
-    currentTtsJob = null;''': '''console.info(`Current TTS job for ${currentTtsJob?.name} completed.`);
+            
+            '''console.info(`Current TTS job for ${currentTtsJob?.name} completed.`);\r\n    currentTtsJob = null;''': '''console.info(`Current TTS job for ${currentTtsJob?.name} completed.`);
     currentTtsJob = null;
-	if (extension_settings.wav2lip !== undefined && extension_settings.wav2lip.enabled && wav2lipIsGeneratingNow) wav2lipMain("text", 0, extension_settings.wav2lip.char_folder, extension_settings.wav2lip.device);'''
+    if (extension_settings.wav2lip !== undefined && extension_settings.wav2lip.enabled && wav2lipIsGeneratingNow) wav2lipMain("text", 0, extension_settings.wav2lip.char_folder, extension_settings.wav2lip.device);'''
             }
         ],
         
