@@ -48,7 +48,7 @@ const defaultSettings = {
     silero_language: "v3_en",
     silero_pitch: "medium",
     silero_speed: "medium",
-    mode: "live", // message, live
+    mode: "message", // message, live
     char_folder: "default", // inside input folder
     device: "cpu", // cpu,cuda
 }
