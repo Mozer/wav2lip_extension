@@ -4,8 +4,6 @@ Based on [Rudrabha/Wav2Lip](https://github.com/Rudrabha/Wav2Lip) and wrapped in 
 
 An extension that makes video messages with lipsync to audio from TTS. Silero TTS and Coqui XTTSv2 are supported.
 
-https://github.com/Mozer/wav2lip_extension/assets/1599013/1dcab8d0-a7a2-45da-8bbf-416c2a5271bc
-
 New video of [real time usage in Silly Tavern with STT and XTTSv2 in English](https://www.youtube.com/watch?v=meUj1v55tO0).
 
 И еще одно видео: [на русском языке, есть немного мата](https://t.me/tensorbanana/832).
@@ -94,7 +92,7 @@ https://github.com/Mozer/wav2lip_extension
 cd SillyTavern-extras\modules\
 git clone https://github.com/Mozer/wav2lip
 cd wav2lip
-pip install -r requirements.txt
+pip install -r requirements_with_silero.txt
 ```
 Wait while all the dependencies  are installed. If there are errors - fix them manully or open an issue.
 
