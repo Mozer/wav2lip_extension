@@ -21,7 +21,7 @@ Original Rudrabha/Wav2Lip model was built for low res vids and is fast. There ar
 
 
 ## News
-- 2024.04.08 - Sorry, I have broken down this extension with recent updates, please take a look at my other xtts+wav2lip implementation in [talk-llama-fast](https://github.com/Mozer/talk-llama-fast), it can also work with SillyTavern and without this extension (turn it off). I will fix this extension later.
+- 2024.04.08 - Sorry, I have broken down this extension with recent updates, please take a look at my other xtts+wav2lip implementation in [talk-llama-fast](https://github.com/Mozer/talk-llama-fast). It can also work with SillyTavern and without this extension (please disable it off). I will fix this extension later.
 - 2024.01.17 - Keeping model in memory between generations is now saving 0.60s of loading time. No changes in VRAM usage are visible, Windows resource monitor still shows same amounts. Updated file in Extras: wav2lip_module.py
 - 2024.01.14 - Memory optimisation: now it requires just ~1 GB of VRAM or RAM to run it. I changed wav2lip_batch_size from 1024 to 16, and face_det_batch_size from 16 to 4. Almost no trade offs in speed. Updated file in Extras: server_wav2lip.py
 - 2024.01.13 - fixed VRAM memory leak: CUDA buffers were not emptied after each generation, eating vram and slowing down each generation. Updated file in Extras: wav2lip_module.py
